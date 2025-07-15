@@ -1,0 +1,38 @@
+# Entorno virtual
+bin/
+lib/
+lib64/
+pyvenv.cfg
+
+# Cachés de pip
+pip-cache/
+pip_cache/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de compilación
+*.so
+*.o
+*.a
+*.out
+
+# Configuración de editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Otros directorios intermedios
+build/
+dist/
+
+# Node.js (por si acaso)
+node_modules/
