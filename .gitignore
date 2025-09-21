@@ -33,6 +33,8 @@ Thumbs.db
 # Otros directorios intermedios
 build/
 dist/
+venv/
+tmp/
 
 # Node.js (por si acaso)
 node_modules/
