@@ -34,6 +34,7 @@ Thumbs.db
 build/
 dist/
 venv/
+.venv/
 tmp/
 
 # Node.js (por si acaso)
