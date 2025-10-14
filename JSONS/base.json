@@ -1,0 +1,53 @@
+{
+  "document_id": "unique_identifier",
+  "metadata": {
+    "title": "...",
+    "source": "...",
+    "url": "...",
+    "document_type": "ley|sentencia|contrato|decreto|resolución|ordenanza|disposición|acordada|reglamento|decisión_administrativa|auto|providencia|fallo|dictamen|pericia|acta|oficio|convenio|acuerdo|escritura|poder|testamento|nota|informe|memorial|recurso|constitución|tratado|declaración",
+
+    "creation_date": "2025-01-15",
+    "modification_date": "2025-01-16",
+    "jurisdiction": "nacional|provincial|municipal|desconocida",
+    "legal_area": ["civil|penal|laboral|comercial|constitucional|administrativo|tributario|fiscal|procesal_penal|procesal_civil|internacional_público|familia|sucesiones|consumidor|contratos|daños|responsabilidad_civil|ambiental|minero|agrario|bancario|financiero|seguros|societario|concursal|quiebras|marítimo|aeronáutico|energético|telecomunicaciones|propiedad_intelectual|informático|tecnológico|previsional|seguridad_social|salud|educación|urbanístico|migración|migratorio|electoral|deportivo|desconocida"]
+  },
+  "content": {
+    "full_text": "texto completo del documento",
+    "structured_sections": [
+      {
+        "section_number": "1",
+        "title": "...",
+        "content": "..."
+      }
+    ]
+  },
+  "extracted_entities": {
+    "laws_cited": ["Ley 123/2020"],
+    "articles": ["Art. 15", "Art. 22"],
+    "decrees_cited": ["Decreto 456/2021"],
+    "resolutions_cited": ["Resolución 789/2022"],
+    "treaties_cited": ["Convención de Viena"],
+    "constitutions_cited": ["CN Art. 14"],
+    "regulations_cited": ["Reglamento 321/2020"],
+    "case_numbers": ["Expediente N° 12345/2024"],
+    "judges": ["Dr. Juan Pérez"],
+    "courts": ["Cámara Nacional de Apelaciones"],
+    "previous_rulings": ["Fallos 328:1234"],
+    "judicial_chambers": ["Sala II"],
+    "case_parties": {
+      "actor" : "Juan Pérez",
+      "demandado": "María García"
+    },
+    "lawyers": ["Dr. Carlos López"],
+    "prosecutors": ["Fiscal General"],
+    "witnesses": ["Testigo: Ana Martínez"],
+    "document_references": ["Ver expediente adjunto"],
+    "keywords": ["responsabilidad civil", "daños y perjuicios"]
+  },
+  "processing_info": {
+    "original_format": "pdf|docx|html",
+    "extraction_method": "ocr|native_text|api",
+    "confidence_score": 0.75,
+    "processed_at": "2025-01-15T10:30:00Z"
+  }
+}
