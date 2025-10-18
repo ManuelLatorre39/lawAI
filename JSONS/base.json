@@ -5,9 +5,12 @@
     "source": "...",
     "url": "...",
     "document_type": "ley|sentencia|contrato|decreto|resolución|ordenanza|disposición|acordada|reglamento|decisión_administrativa|auto|providencia|fallo|dictamen|pericia|acta|oficio|convenio|acuerdo|escritura|poder|testamento|nota|informe|memorial|recurso|constitución|tratado|declaración",
-
-    "creation_date": "2025-01-15",
-    "modification_date": "2025-01-16",
+    "status": "vigente|derogado|modificado|suspendido",
+    "validity_dates": {
+      "start_date": "2025-01-15",
+      "end_date": null,
+      "promulgation_date": "2025-01-10"
+    },
     "jurisdiction": "nacional|provincial|municipal|desconocida",
     "legal_area": ["civil|penal|laboral|comercial|constitucional|administrativo|tributario|fiscal|procesal_penal|procesal_civil|internacional_público|familia|sucesiones|consumidor|contratos|daños|responsabilidad_civil|ambiental|minero|agrario|bancario|financiero|seguros|societario|concursal|quiebras|marítimo|aeronáutico|energético|telecomunicaciones|propiedad_intelectual|informático|tecnológico|previsional|seguridad_social|salud|educación|urbanístico|migración|migratorio|electoral|deportivo|desconocida"]
   },
@@ -44,10 +47,36 @@
     "document_references": ["Ver expediente adjunto"],
     "keywords": ["responsabilidad civil", "daños y perjuicios"]
   },
-  "processing_info": {
-    "original_format": "pdf|docx|html",
-    "extraction_method": "ocr|native_text|api",
-    "confidence_score": 0.75,
+    "relationships": {
+    "modifies": ["document_id_123"],
+    "modified_by": ["document_id_456"],
+    "derogates": ["document_id_789"],
+    "derogated_by": null,
+    "complements": ["document_id_012"],
+    "parent_law": "document_id_345",
+    "regulations": ["document_id_678"],
+    "related_cases": ["document_id_901"]
+  },
+  "analysis": {
+    "summary": "resumen automático del documento",
+    "main_topics": ["derecho del consumidor", "daños"],
+    "legal_precedents": ["leading_case_id"],
+    "doctrine_cited": ["autor: doctrina citada"],
+    "embeddings": [0.123, 0.456, ...], 
+    "sentiment": "neutral|favorable|desfavorable",
     "processed_at": "2025-01-15T10:30:00Z"
+  },
+  "procedural_info": {
+    "instance": "primera|segunda|casación|suprema",
+    "resolution_type": "sentencia|auto|providencia",
+    "vote": "unánime|mayoría|disidencia",
+    "appeal_status": "apelable|firme|apelado",
+    "execution_status": "pendiente|ejecutado|suspendido"
+  },
+  "search_fields": {
+    "searchable_text": "texto optimizado para búsqueda",
+    "boost_score": 1.0, // relevancia del documento
+    "tags": ["laboral", "despido", "indemnización"],
+    "custom_ranking": 100 // para ordenamiento personalizado
   }
 }
