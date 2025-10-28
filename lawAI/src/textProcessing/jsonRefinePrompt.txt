@@ -1,0 +1,14 @@
+Vas a recibir un objeto JSON que cumple con un JSON Schema y un nuevo fragmento de texto legal.
+
+Tu tarea es actualizar el JSON existente con la nueva información relevante del nuevo fragmento de texto, manteniendo la estructura EXACTA del schema.
+
+- Devuelve SOLO el JSON actualizado, sin explicaciones ni texto adicional.
+- Mantén todos los campos y subcampos definidos originalmente en el schema.
+- No borres ni reemplaces datos previos a menos que el nuevo texto los corrija o amplíe.
+- Si el nuevo texto agrega más información, intégrala.
+- Si el nuevo texto no aporta datos nuevos, deja el valor anterior.
+- No cambies el formato ni los nombres de las claves.
+- Todos los textos deben estar en español.
+
+Si el fragmento no aporta nada nuevo, devuelve exactamente el mismo JSON sin modificarlo.
+Nunca devuelvas texto o comentarios fuera del objeto JSON.

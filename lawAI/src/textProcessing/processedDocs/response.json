@@ -1,0 +1,115 @@
+{
+  "document_id": "CODIGO_PENAL_ARGENTINA_11179",
+  "metadata": {
+    "title": "Código Penal de la Nación Argentina",
+    "source": "Boletín Oficial",
+    "url": null,
+    "document_type": "ley",
+    "status": "vigente",
+    "validity_dates": {
+      "start_date": "1984-01-01",
+      "end_date": null,
+      "promulgation_date": "1984-01-01"
+    },
+    "jurisdiction": "nacional",
+    "legal_area": [
+      "penal"
+    ]
+  },
+  "content": {
+    "full_text": "CODIGO PENAL DE LA NACION ARGENTINA\nLEY 11.179 (T.O. 1984 actualizado)\nIndice Temático\nLIBRO PRIMERO\nDISPOSICIONES GENERALES\nTITULO I APLICACION DE LA LEY PENAL Arts.1 a 4\nTITULO II DE LAS PENAS Arts. 5 a 25\nTITULO III CONDENACION CONDICIONAL Arts. 26 a 29\nTITULO IV REPARACION DE PERJUICIOS Arts. 30 a 33\nTITULO V IMPUTABILIDAD Arts. 34 a 41\nTITULO VI TENTATIVA Arts. 42 a 44\nTITULO\nVII PARTICIPACION CRIMINAL Arts. 45 a 49\nTITULO\nVIII REINCIDENCIA Arts. 50 a 53\nTITULO IX CONCURSO DE DELITOS Arts. 54 a 58\nTITULO X EXTINCION DE ACCIONES Y DE PENAS Arts. 59 a 70\nTITULO XI DEL EJERCICIO DE LAS ACCIONES Arts. 71 a 76\nTITULO\nXII DE LA SUSPENSIÓN DEL JUICIO A PRUEBAArts. 76 bis a\n76 quater\nTITULO\nXIII SIGNIFICACION DE CONCEPTOS\nEMPLEADOS EN EL CODIGO\nArts. 77 a 78\nbis\nLIBRO SEGUNDO\nDE LOS DELITOS\nTITULO I DELITOS CONTRA LAS PERSONAS Arts. 79 a 108\nTITULO II DELITOS CONTRA EL HONOR Arts. 109 a\n117 bis\nTITULO III DELITOS CONTRA LA INTEGRIDAD\nSEXUAL\nArts. 118 a\n133\nTITULO IV DELITOS CONTRA EL ESTADO CIVIL Arts. 134 a\n139 bis\nTITULO V DELITOS CONTRA LA LIBERTAD Arts. 140 a\n161\nTITULO VI DELITOS CONTRA LA PROPIEDAD Arts. 162 a\n185\nTITULO VII DELITOS CONTRA LA SEGURIDAD\nPUBLICA\nArts. 186 a\n208\nTITULO VIII DELITOS CONTRA EL ORDEN PUBLICO Arts. 209 a\n213 bis\nTITULO IX DELITOS CONTRA LA SEGURIDAD DE LA\nNACION\nArts. 214 a\n225\nTITULO X DELITOS CONTRA LOS PODERES\nPUBLICOS Y EL ORDEN CONSTITUCIONAL\nArts. 226 a\n236",
+    "structured_sections": []
+  },
+  "extracted_entities": {
+    "laws_cited": [
+      "Ley 11.179"
+    ],
+    "articles": [
+      "Arts. 1 a 4",
+      "Arts. 5 a 25",
+      "Arts. 26 a 29",
+      "Arts. 30 a 33",
+      "Arts. 34 a 41",
+      "Arts. 42 a 44",
+      "Arts. 45 a 49",
+      "Arts. 50 a 53",
+      "Arts. 54 a 58",
+      "Arts. 59 a 70",
+      "Arts. 71 a 76",
+      "Arts. 76 bis a 76 quater",
+      "Arts. 77 a 78",
+      "Arts. 79 a 108",
+      "Arts. 109 a 117 bis",
+      "Arts. 118 a 133",
+      "Arts. 134 a 139 bis",
+      "Arts. 140 a",
+      "Arts. 140 a 161",
+      "Arts. 162 a 185",
+      "Arts. 186 a 208",
+      "Arts. 209 a 213 bis",
+      "Arts. 214 a 225",
+      "Arts. 226 a 236"
+    ],
+    "decrees_cited": [],
+    "resolutions_cited": [],
+    "treaties_cited": [],
+    "constitutions_cited": [],
+    "regulations_cited": [],
+    "case_numbers": [],
+    "judges": [],
+    "courts": [],
+    "previous_rulings": [],
+    "judicial_chambers": [],
+    "case_parties": {
+      "actor": null,
+      "demandado": null
+    },
+    "lawyers": [],
+    "prosecutors": [],
+    "witnesses": [],
+    "document_references": [],
+    "keywords": [
+      "Código Penal",
+      "Ley Penal",
+      "Penas",
+      "Imputabilidad",
+      "Tentativa"
+    ]
+  },
+  "relationships": {
+    "modifies": [],
+    "modified_by": [],
+    "derogates": [],
+    "derogated_by": null,
+    "complements": [],
+    "parent_law": null,
+    "regulations": [],
+    "related_cases": []
+  },
+  "analysis": {
+    "summary": "El documento es el Código Penal de la Nación Argentina, Ley 11.179 (T.O. 1984 actualizado), que establece las disposiciones generales relativas a la aplicación de la ley penal, las penas, la condenación condicional, la reparación de perjuicios, la imputabilidad y la tentativa.",
+    "main_topics": [
+      "Derecho Penal",
+      "Disposiciones Generales",
+      "Penas",
+      "Imputabilidad",
+      "Tentativa"
+    ],
+    "legal_precedents": [],
+    "doctrine_cited": [],
+    "embeddings": [],
+    "sentiment": "neutral",
+    "processed_at": null
+  },
+  "procedural_info": {},
+  "search_fields": {
+    "searchable_text": "codigo penal nacion argentina ley 11179 to 1984 actualizado indice tematico libro primero disposiciones generales titulo i aplicacion ley penal arts1 4 titulo ii penas arts 5 25 titulo iii condenacion condicional arts 26 29 titulo iv reparacion perjuicios arts 30 33 titulo v imputabilidad arts 34 41 titulo vi tentativa arts 42 44 titulo vii",
+    "boost_score": null,
+    "tags": [
+      "código penal",
+      "ley",
+      "argentina"
+    ],
+    "custom_ranking": null
+  }
+}

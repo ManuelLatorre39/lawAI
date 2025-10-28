@@ -1,0 +1,75 @@
+#main
+if __name__ == "__main__":
+    client = get_gemini_client()
+    
+    #leemos schema
+    with open('../../JSONS/baseSchema.json', 'r', encoding='utf-8') as f:
+        json_schema = json.load(f)
+    
+    #leemos prompt para el LLM (inicial)
+    with open('jsonFillPrompt.txt', 'r', encoding='utf-8') as f:
+        initial_instructions = f.read()
+    
+    #leemos prompt de refinamiento
+    with open('jsonRefinePrompt.txt', 'r', encoding='utf-8') as f:
+        refine_instructions = f.read()
+
+    #leemos documento legal
+    reader = PdfReader('../../Documentos/CODIGO PENAL DE LA NACION ARGENTINA.pdf')
+    legal_doc = ""
+    for page in reader.pages:
+        legal_doc += page.extract_text() + "\n"
+
+    # Dividir en chunks
+    legal_doc_chunks = chunk_text(legal_doc)
+    print(f"Total de chunks: {len(legal_doc_chunks)}")
+    
+    # Limitar a 8 chunks
+    legal_doc_chunks = legal_doc_chunks[:8]
+    print(f"Procesando solo los primeros {len(legal_doc_chunks)} chunks")
+
+    # PASO 1: Crear JSON inicial con el primer chunk + schema completo
+    first_chunk_prompt = (
+        initial_instructions +
+        "\n\n**JSON SCHEMA:**\n" +
+        json.dumps(json_schema, indent=2) +
+        "\n\n**DOCUMENT:**\n" +
+        legal_doc_chunks[0]
+    )
+    
+    print("Procesando chunk 1...")
+    response = client.models.generate_content(
+        model="gemini-2.0-flash-exp",
+        contents=first_chunk_prompt
+    )
+    
+    # Parsear respuesta inicial
+    refined_json = response.text
+    print("JSON inicial creado: ", response.text)
+    # PASO 2: Refinar con chunks restantes (SIN enviar el schema completo)
+    for i, chunk in enumerate(legal_doc_chunks[1:], start=2):
+        print(f"Procesando chunk {i}/{len(legal_doc_chunks)}...")
+        
+        # Prompt simplificado: instrucciones + JSON actual + nuevo chunk
+        refine_prompt = (
+            refine_instructions +
+            "\n\n**EXISTING JSON:**\n" +
+            json.dumps(refined_json, ensure_ascii=False, indent=2) +
+            "\n\n**NEW CHUNK:**\n" +
+            chunk
+        )
+        
+        response = client.models.generate_content(
+            model="gemini-2.0-flash-exp",
+            contents=refine_prompt
+        )
+        
+        # Actualizar JSON refinado
+        refined_json = response.text
+    
+    # Guardar resultado final
+    print("Guardando resultado...")
+    with open('./processedDocs/response.json', 'w', encoding='utf-8') as f:
+        json.dump(refined_json, f, ensure_ascii=False, indent=2)
+
+    print("¡Proceso completado!: \n"+ refined_json)

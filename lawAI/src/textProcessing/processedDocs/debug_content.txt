@@ -1,0 +1,377 @@
+```json
+{
+  "document_id": "CPN-ARG-1984",
+  "metadata": {
+    "title": "Código Penal de la Nación Argentina",
+    "source": "Boletín Oficial de la República Argentina",
+    "url": null,
+    "document_type": "ley",
+    "status": "vigente",
+    "validity_dates": {
+      "start_date": "1984-01-01",
+      "end_date": null,
+      "promulgation_date": "1984-01-01"
+    },
+    "jurisdiction": "nacional",
+    "legal_area": [
+      "penal"
+    ]
+  },
+  "content": {
+    "full_text": "CODIGO PENAL DE LA NACION ARGENTINA
+LEY 11.179 (T.O. 1984 actualizado)
+Indice Temático
+
+LIBRO PRIMERO
+DISPOSICIONES GENERALES
+
+TITULO I APLICACION DE LA LEY PENAL Arts.1 a 4
+TITULO II DE LAS PENAS Arts. 5 a 25
+TITULO III CONDENACION CONDICIONAL Arts. 26 a 29
+TITULO IV REPARACION DE PERJUICIOS Arts. 30 a 33
+TITULO V IMPUTABILIDAD Arts. 34 a 41
+TITULO VI TENTATIVA Arts. 42 a 44
+TITULO VII PARTICIPACION CRIMINAL Arts. 45 a 49
+TITULO VIII REINCIDENCIA Arts. 50 a 53
+TITULO IX CONCURSO DE DELITOS Arts. 54 a 58
+TITULO X EXTINCION DE ACCIONES Y DE PENAS Arts. 59 a 70
+TITULO XI DEL EJERCICIO DE LAS ACCIONES Arts. 71 a 76
+TITULO XII DE LA SUSPENSIÓN DEL JUICIO A PRUEBAArts. 76 bis a 76 quater
+TITULO XIII SIGNIFICACION DE CONCEPTOS
+76 quater
+TITULO
+XIII
+SIGNIFICACION DE CONCEPTOS
+EMPLEADOS EN EL CODIGO
+Arts. 77 a 78
+bis
+LIBRO SEGUNDO
+DE LOS DELITOS
+TITULO I DELITOS CONTRA LAS PERSONAS Arts. 79 a 108
+TITULO II DELITOS CONTRA EL HONOR Arts. 109 a
+117 bis
+TITULO III DELITOS CONTRA LA INTEGRIDAD
+SEXUAL
+Arts. 118 a
+133
+TITULO IV DELITOS CONTRA EL ESTADO CIVIL Arts. 134 a
+139 bis
+TITULO V DELITOS CONTRA LA LIBERTAD Arts. 140 a 161
+TITULO VI DELITOS CONTRA LA PROPIEDAD Arts. 162 a 185
+TITULO VII DELITOS CONTRA LA SEGURIDAD PUBLICA Arts. 186 a 208
+TITULO VIII DELITOS CONTRA EL ORDEN PUBLICO Arts. 209 a 213 bis
+TITULO IX DELITOS CONTRA LA SEGURIDAD DE LA NACION Arts. 214 a 225
+TITULO X DELITOS CONTRA LOS PODERES PUBLICOS Y EL ORDEN CONSTITUCIONAL Arts. 226 a 236
+TITULO XI DELITOS CONTRA LA ADMINISTRACION PUBLICA Arts. 237 a 281 bis
+TITULO XII DELITOS CONTRA LA FE PUBLICA Arts. 282 a 302
+TITULO XIII DELITOS CONTRA EL ORDEN ECONOMICO Y FINANCIERO Arts. 303 a 313
+DISPOSICIONES COMPLEMENTARIAS Arts. 314 a 316
+cargo.
+3) Por el delito previsto en el artículo 258 bis cometido en el extranjero, por ciudadanos argentinos o personas
+jurídicas con domicilio en la República Argentina, ya sea aquel fijado en sus estatutos o el correspondiente a los
+establecimientos o sucursales que posea en el territorio argentino.",
+    "structured_sections": [
+      {
+        "section_number": "LIBRO PRIMERO",
+        "title": "DISPOSICIONES GENERALES",
+        "content": null
+      },
+      {
+        "section_number": "TITULO I",
+        "title": "APLICACION DE LA LEY PENAL",
+        "content": "Arts.1 a 4"
+      },
+      {
+        "section_number": "TITULO II",
+        "title": "DE LAS PENAS",
+        "content": "Arts. 5 a 25"
+      },
+      {
+        "section_number": "TITULO III",
+        "title": "CONDENACION CONDICIONAL",
+        "content": "Arts. 26 a 29"
+      },
+      {
+        "section_number": "TITULO IV",
+        "title": "REPARACION DE PERJUICIOS",
+        "content": "Arts. 30 a 33"
+      },
+      {
+        "section_number": "TITULO V",
+        "title": "IMPUTABILIDAD",
+        "content": "Arts. 34 a 41"
+      },
+      {
+        "section_number": "TITULO VI",
+        "title": "TENTATIVA",
+        "content": "Arts. 42 a 44"
+      },
+      {
+        "section_number": "TITULO VII",
+        "title": "PARTICIPACION CRIMINAL",
+        "content": "Arts. 45 a 49"
+      },
+      {
+        "section_number": "TITULO VIII",
+        "title": "REINCIDENCIA",
+        "content": "Arts. 50 a 53"
+      },
+      {
+        "section_number": "TITULO IX",
+        "title": "CONCURSO DE DELITOS",
+        "content": "Arts. 54 a 58"
+      },
+      {
+        "section_number": "TITULO X",
+        "title": "EXTINCION DE ACCIONES Y DE PENAS",
+        "content": "Arts. 59 a 70"
+      },
+      {
+        "section_number": "TITULO XI",
+        "title": "DEL EJERCICIO DE LAS ACCIONES",
+        "content": "Arts. 71 a 76"
+      },
+      {
+        "section_number": "TITULO XII",
+        "title": "DE LA SUSPENSIÓN DEL JUICIO A PRUEBA",
+        "content": "Arts. 76 bis a 76 quater"
+      },
+      {
+        "section_number": "TITULO XIII",
+        "title": "SIGNIFICACION DE CONCEPTOS",
+        "content": "Arts. 77 a 78"
+      },
+      {
+        "section_number": "LIBRO SEGUNDO",
+        "title": "DE LOS DELITOS",
+        "content": null
+      },
+      {
+        "section_number": "TITULO I",
+        "title": "DELITOS CONTRA LAS PERSONAS",
+        "content": "Arts. 79 a 108"
+      },
+      {
+        "section_number": "TITULO II",
+        "title": "DELITOS CONTRA EL HONOR",
+        "content": "Arts. 109 a 117 bis"
+      },
+      {
+        "section_number": "TITULO III",
+        "title": "DELITOS CONTRA LA INTEGRIDAD SEXUAL",
+        "content": "Arts. 118 a 133"
+      },
+      {
+        "section_number": "TITULO IV",
+        "title": "DELITOS CONTRA EL ESTADO CIVIL",
+        "content": "Arts. 134 a 139 bis"
+      },
+      {
+        "section_number": "TITULO V",
+        "title": "DELITOS CONTRA LA LIBERTAD",
+        "content": "Arts. 140 a 161"
+      },
+      {
+        "section_number": "TITULO VI",
+        "title": "DELITOS CONTRA LA PROPIEDAD",
+        "content": "Arts. 162 a 185"
+      },
+      {
+        "section_number": "TITULO VII",
+        "title": "DELITOS CONTRA LA SEGURIDAD PUBLICA",
+        "content": "Arts. 186 a 208"
+      },
+      {
+        "section_number": "TITULO VIII",
+        "title": "DELITOS CONTRA EL ORDEN PUBLICO",
+        "content": "Arts. 209 a 213 bis"
+      },
+      {
+        "section_number": "TITULO IX",
+        "title": "DELITOS CONTRA LA SEGURIDAD DE LA NACION",
+        "content": "Arts. 214 a 225"
+      },
+      {
+        "section_number": "TITULO X",
+        "title": "DELITOS CONTRA LOS PODERES PUBLICOS Y EL ORDEN CONSTITUCIONAL",
+        "content": "Arts. 226 a 236"
+      },
+      {
+        "section_number": "TITULO XI",
+        "title": "DELITOS CONTRA LA ADMINISTRACION PUBLICA",
+        "content": "Arts. 237 a 281 bis"
+      },
+      {
+        "section_number": "TITULO XII",
+        "title": "DELITOS CONTRA LA FE PUBLICA",
+        "content": "Arts. 282 a 302"
+      },
+      {
+        "section_number": "TITULO XIII",
+        "title": "DELITOS CONTRA EL ORDEN ECONOMICO Y FINANCIERO",
+        "content": "Arts. 303 a 313"
+      },
+      {
+        "section_number": "DISPOSICIONES COMPLEMENTARIAS",
+        "title": "DISPOSICIONES COMPLEMENTARIAS",
+        "content": "Arts. 314 a 316"
+      }
+    ]
+  },
+  "extracted_entities": {
+    "laws_cited": [
+      "LEY 11.179",
+      "Ley N° 27.401"
+    ],
+    "articles": [
+      "Arts.1",
+      "Arts.4",
+      "Arts.5",
+      "Arts.25",
+      "Arts.26",
+      "Arts.29",
+      "Arts.30",
+      "Arts.33",
+      "Arts.34",
+      "Arts.41",
+      "Arts.42",
+      "Arts.44",
+      "Arts.45",
+      "Arts.49",
+      "Arts.50",
+      "Arts.53",
+      "Arts.54",
+      "Arts.58",
+      "Arts.59",
+      "Arts.70",
+      "Arts.71",
+      "Arts.76",
+      "Arts.76 bis",
+      "Arts.76 quater",
+      "Arts.77",
+      "Arts.78",
+      "Arts.79",
+      "Arts.108",
+      "Arts.109",
+      "Arts.117",
+      "Arts.118",
+      "Arts.133",
+      "Arts.134",
+      "Arts.139",
+      "Arts.140",
+      "Arts.161",
+      "Arts.162",
+      "Arts.185",
+      "Arts.186",
+      "Arts.208",
+      "Arts.209",
+      "Arts.213 bis",
+      "Arts.214",
+      "Arts.225",
+      "Arts.226",
+      "Arts.236",
+      "Arts.237",
+      "Arts.281 bis",
+      "Arts.282",
+      "Arts.302",
+      "Arts.303",
+      "Arts.313",
+      "Arts.314",
+      "Arts.316",
+      "ARTICULO 1º",
+      "artículo 258 bis",
+      "ARTICULO 2º"
+    ],
+    "decrees_cited": [],
+    "resolutions_cited": [],
+    "treaties_cited": [],
+    "constitutions_cited": [],
+    "regulations_cited": [],
+    "case_numbers": [],
+    "judges": [],
+    "courts": [],
+    "previous_rulings": [],
+    "judicial_chambers": [],
+    "case_parties": {},
+    "lawyers": [],
+    "prosecutors": [],
+    "witnesses": [],
+    "document_references": [
+      "Antecedentes Normativos"
+    ],
+    "keywords": [
+      "código penal",
+      "ley penal",
+      "penas",
+      "condenación condicional",
+      "reparación de perjuicios",
+      "imputabilidad",
+      "tentativa",
+      "participación criminal",
+      "reincidencia",
+      "concurso de delitos",
+      "extinción de acciones",
+      "extinción de penas",
+      "ejercicio de acciones",
+      "suspensión del juicio a prueba",
+      "significación de conceptos",
+      "delitos",
+      "delitos contra las personas",
+      "delitos contra el honor",
+      "delitos contra la integridad sexual",
+      "delitos contra el estado civil",
+      "delitos contra la libertad",
+      "delitos contra la propiedad",
+      "delitos contra la seguridad pública",
+      "delitos contra el orden público",
+      "delitos contra la seguridad de la nación",
+      "delitos contra los poderes públicos y el orden constitucional",
+      "delitos contra la administración pública",
+      "delitos contra la fe pública",
+      "delitos contra el orden económico y financiero",
+      "disposiciones complementarias",
+      "delito cometido en el extranjero",
+      "ciudadanos argentinos",
+      "personas jurídicas",
+      "domicilio en la República Argentina",
+      "establecimientos",
+      "sucursales",
+      "territorio argentino",
+      "ley vigente",
+      "fallo",
+      "aplicación de la ley más benigna"
+    ]
+  },
+  "relationships": {},
+  "analysis": {
+    "summary": "El documento es el Código Penal de la Nación Argentina, Ley 11.179 (T.O. 1984 actualizado). El índice temático del Libro Primero, que trata sobre Disposiciones Generales, incluye la aplicación de la ley penal, las penas, la condenación condicional, la reparación de perjuicios, la imputabilidad, la tentativa, la participación criminal, la reincidencia, el concurso de delitos, la extinción de acciones y de penas, el ejercicio de las acciones, la suspensión del juicio a prueba y la significación de conceptos. El Libro Segundo trata sobre los Delitos, incluyendo delitos contra las personas, el honor, la integridad sexual, el estado civil y la libertad. Se menciona el delito previsto en el artículo 258 bis cometido en el extranjero, por ciudadanos argentinos o personas jurídicas con domicilio en la República Argentina. El artículo 2º establece que si la ley vigente al momento de cometer el delito es diferente a la ley al pronunciarse el fallo, se aplicará la ley más benigna.",
+    "main_topics": [
+      "ley penal",
+      "penas",
+      "imputabilidad",
+      "tentativa",
+      "delitos",
+      "delito cometido en el extranjero",
+      "jurisdicción",
+      "ciudadanía",
+      "aplicación de la ley más benigna"
+    ],
+    "legal_precedents": [],
+    "doctrine_cited": [],
+    "embeddings": [],
+    "sentiment": "neutral",
+    "processed_at": "2024-01-01T00:00:00"
+  },
+  "procedural_info": {},
+  "search_fields": {
+    "searchable_text": "codigo penal nacion argentina ley 11179 to 1984 actualizado indice tematico libro primero disposiciones generales titulo i aplicacion ley penal arts1 4 titulo ii penas arts 5 25 titulo iii condenacion condicional arts 26 29 titulo iv reparacion perjuicios arts 30 33 titulo v imputabilidad arts 34 41 titulo vi tentativa arts 42 44 titulo vii participacion criminal arts 45 49 titulo viii reincidencia arts 50 53 titulo ix concurso delitos arts 54 58 titulo x extincion acciones penas arts 59 70 titulo xi ejercicio acciones arts 71 76 titulo xii suspension juicio pruebaarts 76 bis 76 quater titulo xiii significacion conceptos cargo 3 delito previsto articulo 258 bis cometido extranjero ciudadanos argentinos personas juridicas domicilio republica argentina estatutos establecimientos sucursales territorio argentino articulo 2 ley vigente tiempo cometerse delito fuere distinta exista pronunciarse fallo tiempo intermedio aplicara siempre mas benigna",
+    "boost_score": 1.0,
+    "tags": [
+      "código penal",
+      "argentina",
+      "ley"
+    ],
+    "custom_ranking": 0
+  }
+}
+```

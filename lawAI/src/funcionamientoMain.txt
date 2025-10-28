@@ -1,0 +1,50 @@
+	1.	Arranque del modelo
+
+	•	model = get_gemini_model("gemini-2.0-flash-exp")
+Carga tu API key desde .env, configura genai y devuelve un GenerativeModel listo.
+No gasta tokens todavía.
+
+	2.	Lectura de insumos (disco)
+
+	•	Abre ../../JSONS/baseSchema.json → este es el molde (estructura objetivo del JSON).
+	•	Lee jsonFillPrompt.txt → instrucciones iniciales para generar el primer JSON.
+	•	Lee jsonRefinePrompt.txt → instrucciones de refinamiento para ir completando/corrigiendo el JSON con más texto.
+Hasta acá, cero tokens.
+
+	3.	Lectura del PDF y texto plano
+
+	•	PdfReader('../../Documentos/...pdf') → recorre páginas y concatena el texto.
+A veces una página no trae texto (PDF escaneado); por eso usamos (page.extract_text() or "") para no romper.
+
+	4.	Chunking (troceo del texto)
+
+	•	legal_doc_chunks = chunk_text(legal_doc) usa RecursiveCharacterTextSplitter con chunk_size=400 y overlap=50.
+	•	Luego acota: legal_doc_chunks = legal_doc_chunks[:MAX_CHUNKS]
+	•	Con MAX_CHUNKS controlás cuánto del documento procesar (ideal para pilotos cortos).
+
+	5.	Construcción del primer prompt
+
+	•	Arma first_chunk_prompt = instrucciones_iniciales + schema (formateado) + primer_chunk.
+La idea: el modelo ve qué JSON exacto esperás y parte del documento para completarlo.
+
+	6.	Paso 1: envío inicial (o simulación)
+
+	•	Llama a send_to_llm_initial(...).
+	•	Si DRY_RUN = True: no llama a Gemini; devuelve un JSON simulado (para probar el flujo).
+	•	Si DRY_RUN = False: llama a model.generate_content(...) y recibe la respuesta real.
+	•	Luego intenta normalizar:
+	•	Si vino texto, lo “limpia” (clean_llm_json) y hace json.loads.
+	•	Si no es JSON válido, lo guarda como string en "_raw_from_llm" (así no se cae el programa).
+
+	7.	Paso 2: refinamientos por cada chunk restante
+
+	•	Para cada chunk:
+	•	Construye refine_prompt = instrucciones_refine + JSON_actual + NEW_CHUNK.
+	•	Llama a send_to_llm_refine(...) (simulado o real según DRY_RUN).
+	•	Vuelve a normalizar a dict si puede; si no, guarda como "_raw_from_llm".
+	•	Actualiza result.
+
+	8.	Guardado del resultado
+
+	•	Crea processedDocs/ si no existe y escribe response.json con result.
+En simulación verás _simulated: true; en modo real, los campos vendrán del modelo.
