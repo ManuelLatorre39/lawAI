@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict, Literal
-from reader_agent import coordinator, reader_agent, llm_agent  # Make sure these are defined
+from reader_agent import reader_agent, llm_agent  # Make sure these are defined
+from boss_agent import coordinator
 # agents.py should have: coordinator, reader_agent, llm_agent
 
 # Define the shared state structure
