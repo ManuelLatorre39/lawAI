@@ -234,7 +234,7 @@
                         },
                         "embeddings": {
                             "type": "dense_vector",
-                            "dims": 1536
+                            "dims": 768
                         },
                         "sentiment": {
                             "type": "keyword"
