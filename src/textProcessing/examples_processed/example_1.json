@@ -1,0 +1,93 @@
+{
+  "document_id": "doc-12345",
+  "metadata": {
+    "title": "Contestación de Demanda - Ratificación de Despido por Robo y Pérdida de Confianza",
+    "source": "Juzgado de Trabajo Número 5",
+    "url": null,
+    "document_type": "auto",
+    "status": "vigente",
+    "validity_dates": {
+      "start_date": "2023-10-27",
+      "end_date": null,
+      "promulgation_date": "2023-10-27"
+    },
+    "jurisdiction": "provincial",
+    "legal_area": [
+      "laboral"
+    ]
+  },
+  "content": {
+    "full_text": "En respuesta a la demanda presentada, se ratifica el despido justificado del empleado debido al robo y la consecuente pérdida de confianza. CONTESTA DEMANDA. OFRECE PRUEBA Señor Juez: _, abogada (Tº_- Fº_ constituyendo domicilio en _ y domicilio electrónico en _, en autos “_ c/ _ s/ despido” (Exp. Nº _) a V.S. digo: I.- PERSONERÍA Que, como lo acredito con la copia de poder general que se acompaña -la que, según declaro bajo juramento, es fiel a su original vigente- soy mandataria judicial de _ (CUIT _), con domicilio en _.",
+    "structured_sections": []
+  },
+  "extracted_entities": {
+    "laws_cited": [],
+    "articles": [],
+    "decrees_cited": [],
+    "resolutions_cited": [],
+    "treaties_cited": [],
+    "constitutions_cited": [],
+    "regulations_cited": [],
+    "case_numbers": [],
+    "judges": [],
+    "courts": [
+      "Juzgado de Trabajo Número 5"
+    ],
+    "previous_rulings": [],
+    "judicial_chambers": [],
+    "case_parties": {
+      "actor": null,
+      "demandado": null
+    },
+    "lawyers": [],
+    "prosecutors": [],
+    "witnesses": [],
+    "document_references": [],
+    "keywords": [
+      "despido",
+      "robo",
+      "pérdida de confianza"
+    ]
+  },
+  "relationships": {
+    "modifies": [],
+    "modified_by": [],
+    "derogates": [],
+    "derogated_by": null,
+    "complements": [],
+    "parent_law": null,
+    "regulations": [],
+    "related_cases": []
+  },
+  "analysis": {
+    "summary": "El documento resume la contestación a una demanda, confirmando el despido justificado de un empleado debido a un robo y la pérdida de confianza.",
+    "main_topics": [
+      "despido justificado",
+      "robo",
+      "pérdida de confianza"
+    ],
+    "legal_precedents": [],
+    "doctrine_cited": [],
+    "embeddings": [],
+    "sentiment": "desfavorable",
+    "processed_at": "2024-02-29T10:00:00Z"
+  },
+  "procedural_info": {
+    "instance": "primera",
+    "resolution_type": "auto",
+    "vote": "unánime",
+    "appeal_status": "apelable",
+    "execution_status": "pendiente"
+  },
+  "search_fields": {
+    "searchable_text": "contestacion demanda ratifica despido robo perdida confianza juzgado trabajo",
+    "boost_score": 1.2,
+    "tags": [
+      "laboral",
+      "despido",
+      "robo",
+      "confianza"
+    ],
+    "custom_ranking": 10
+  }
+}
