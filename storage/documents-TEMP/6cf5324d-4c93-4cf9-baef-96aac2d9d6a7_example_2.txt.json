@@ -1,0 +1,89 @@
+{
+  "document_id": "documento_123",
+  "metadata": {
+    "title": "Contestación de Demanda - Negación de Despido y Concesión de Beneficio Jubilatorio",
+    "source": "Juzgado Laboral",
+    "url": null,
+    "document_type": "escrito",
+    "status": "vigente",
+    "validity_dates": {
+      "start_date": "2023-10-27",
+      "end_date": null,
+      "promulgation_date": "2023-10-27"
+    },
+    "jurisdiction": "provincial",
+    "legal_area": [
+      "laboral"
+    ]
+  },
+  "content": {
+    "full_text": "Contestación de demanda. Se niega despido. Concesión de beneficio jubilatorio. Art. 252 LCT.",
+    "structured_sections": []
+  },
+  "extracted_entities": {
+    "laws_cited": [
+      "LCT"
+    ],
+    "articles": [
+      "252 LCT"
+    ],
+    "decrees_cited": [],
+    "resolutions_cited": [],
+    "treaties_cited": [],
+    "constitutions_cited": [],
+    "regulations_cited": [],
+    "case_numbers": [],
+    "judges": [],
+    "courts": [
+      "Juzgado Laboral"
+    ],
+    "previous_rulings": [],
+    "judicial_chambers": [],
+    "case_parties": {
+      "actor": null,
+      "demandado": null
+    },
+    "lawyers": [],
+    "prosecutors": [],
+    "witnesses": [],
+    "document_references": [],
+    "keywords": [
+      "despido",
+      "jubilación"
+    ]
+  },
+  "relationships": {
+    "modifies": [],
+    "modified_by": [],
+    "derogates": [],
+    "derogated_by": null,
+    "complements": [],
+    "parent_law": null,
+    "regulations": [],
+    "related_cases": []
+  },
+  "analysis": {
+    "summary": "Documento que contesta una demanda, negando el despido y haciendo referencia a la concesión de un beneficio jubilatorio.",
+    "main_topics": [
+      "despido",
+      "beneficio jubilatorio"
+    ],
+    "legal_precedents": [],
+    "doctrine_cited": [],
+    "embeddings": [],
+    "sentiment": "neutral",
+    "processed_at": "2024-02-29T10:00:00Z"
+  },
+  "procedural_info": null,
+  "search_fields": {
+    "searchable_text": "Contestación de Demanda - Negación de Despido y Concesión de Beneficio Jubilatorio.  Juzgado Laboral. Despido, jubilación.",
+    "boost_score": 1.0,
+    "tags": [
+      "laboral",
+      "contestacion",
+      "despido",
+      "jubilacion"
+    ],
+    "custom_ranking": 10
+  }
+}

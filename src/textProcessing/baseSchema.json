@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schema for LawAI Legal Documents. Every field must be completed in spanish.",
+  "description": "This schema defines the structure for storing information extracted and analyzed from legal documents",
+  "type": "object",
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "description": "Unique identifier for the document."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Contains general metadata about the document.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The official or descriptive title of the document."
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the document (e.g., Official Gazette, judicial power website)."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the original document, if available online."
+        },
+        "document_type": {
+          "type": "string",
+          "description": "Classification of the legal document type.",
+          "enum": [
+            "ley", "sentencia", "contrato", "decreto", "resolución", "ordenanza", "disposición", "acordada", "reglamento", "decisión_administrativa", "auto", "providencia", "fallo", "dictamen", "pericia", "acta", "oficio", "convenio", "acuerdo", "escritura", "poder", "testamento", "nota", "informe", "memorial", "recurso", "constitución", "tratado", "declaración"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Validity status of the document.",
+          "enum": ["vigente", "derogado", "modificado", "suspendido"]
+        },
+        "validity_dates": {
+          "type": "object",
+          "description": "Relevant dates regarding the validity and promulgation of the document.",
+          "properties": {
+            "start_date": {
+              "type": "string",
+              "format": "date",
+              "description": "Start date of the document's validity."
+            },
+            "end_date": {
+              "type": ["string", "null"],
+              "format": "date",
+              "description": "End date of validity, if applicable."
+            },
+            "promulgation_date": {
+              "type": "string",
+              "format": "date",
+              "description": "Promulgation date of the document."
+            }
+          },
+          "required": ["start_date", "promulgation_date"]
+        },
+        "jurisdiction": {
+          "type": "string",
+          "description": "Jurisdictional scope of the document.",
+          "enum": ["nacional", "provincial", "municipal", "desconocida"]
+        },
+        "legal_area": {
+          "type": "array",
+          "description": "Areas of law to which the document belongs.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "civil", "penal", "laboral", "comercial", "constitucional", "administrativo", "tributario", "fiscal", "procesal_penal", "procesal_civil", "internacional_público", "familia", "sucesiones", "consumidor", "contratos", "daños", "responsabilidad_civil", "ambiental", "minero", "agrario", "bancario", "financiero", "seguros", "societario", "concursal", "quiebras", "marítimo", "aeronáutico", "energético", "telecomunicaciones", "propiedad_intelectual", "informático", "tecnológico", "previsional", "seguridad_social", "salud", "educación", "urbanístico", "migración", "migratorio", "electoral", "deportivo", "desconocida"
+            ]
+          }
+        }
+      },
+      "required": ["title", "source", "document_type", "status", "validity_dates", "jurisdiction", "legal_area"]
+    },
+    "content": {
+      "type": "object",
+      "description": "Textual content of the document.",
+      "properties": {
+        "full_text": {
+          "type": "string",
+          "description": "The full, unformatted text of the document."
+        },
+        "structured_sections": {
+          "type": "array",
+          "description": "The document's content divided into structured sections.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "section_number": {
+                "type": "string",
+                "description": "Number or identifier of the section."
+              },
+              "title": {
+                "type": "string",
+                "description": "Title of the section."
+              },
+              "content": {
+                "type": "string",
+                "description": "Textual content of the section."
+              }
+            },
+            "required": ["section_number", "title", "content"]
+          }
+        }
+      },
+      "required": ["full_text"]
+    },
+    "extracted_entities": {
+      "type": "object",
+      "description": "Specific entities extracted from the document's content.",
+      "properties": {
+        "laws_cited": { "type": "array", "items": { "type": "string" }, "description": "Laws mentioned in the document." },
+        "articles": { "type": "array", "items": { "type": "string" }, "description": "Cited articles of laws or regulations." },
+        "decrees_cited": { "type": "array", "items": { "type": "string" }, "description": "Mentioned decrees." },
+        "resolutions_cited": { "type": "array", "items": { "type": "string" }, "description": "Mentioned resolutions." },
+        "treaties_cited": { "type": "array", "items": { "type": "string" }, "description": "Cited international treaties or conventions." },
+        "constitutions_cited": { "type": "array", "items": { "type": "string" }, "description": "Cited articles of constitutions." },
+        "regulations_cited": { "type": "array", "items": { "type": "string" }, "description": "Mentioned regulations." },
+        "case_numbers": { "type": "array", "items": { "type": "string" }, "description": "Case or file numbers." },
+        "judges": { "type": "array", "items": { "type": "string" }, "description": "Names of the intervening judges." },
+        "courts": { "type": "array", "items": { "type": "string" }, "description": "Mentioned courts or tribunals." },
+        "previous_rulings": { "type": "array", "items": { "type": "string" }, "description": "Citations to previous rulings or case law." },
+        "judicial_chambers": { "type": "array", "items": { "type": "string" }, "description": "Mentioned judicial chambers or rooms." },
+        "case_parties": {
+          "type": "object",
+          "description": "Parties involved in the case.",
+          "properties": {
+            "actor": { "type": "string", "description": "Plaintiff or claimant." },
+            "demandado": { "type": "string", "description": "Defendant." }
+          }
+        },
+        "lawyers": { "type": "array", "items": { "type": "string" }, "description": "Lawyers of the parties." },
+        "prosecutors": { "type": "array", "items": { "type": "string" }, "description": "Intervening prosecutors." },
+        "witnesses": { "type": "array", "items": { "type": "string" }, "description": "Mentioned witnesses." },
+        "document_references": { "type": "array", "items": { "type": "string" }, "description": "References to other documents." },
+        "keywords": { "type": "array", "items": { "type": "string" }, "description": "Keywords or relevant terms." }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "description": "Relationships of the document with other legal documents.",
+      "properties": {
+        "modifies": { "type": "array", "items": { "type": "string" }, "description": "IDs of documents that are modified by this one." },
+        "modified_by": { "type": "array", "items": { "type": "string" }, "description": "IDs of documents that modify this one." },
+        "derogates": { "type": "array", "items": { "type": "string" }, "description": "IDs of documents that are derogated by this one." },
+        "derogated_by": { "type": ["string", "null"], "description": "ID of the document that derogates this one." },
+        "complements": { "type": "array", "items": { "type": "string" }, "description": "IDs of documents that are complemented by this one." },
+        "parent_law": { "type": "string", "description": "ID of the parent or main law to which this document regulates or is subordinated." },
+        "regulations": { "type": "array", "items": { "type": "string" }, "description": "IDs of documents that regulate this one." },
+        "related_cases": { "type": "array", "items": { "type": "string" }, "description": "IDs of related cases or files." }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "description": "Automatically generated analysis of the document.",
+      "properties": {
+        "summary": { "type": "string", "description": "Automatic summary of the document's content and decision." },
+        "main_topics": { "type": "array", "items": { "type": "string" }, "description": "Main topics covered in the document." },
+        "legal_precedents": { "type": "array", "items": { "type": "string" }, "description": "IDs of cases that set a relevant legal precedent." },
+        "doctrine_cited": { "type": "array", "items": { "type": "string" }, "description": "Citations to relevant doctrine or authors." },
+        "embeddings": { "type": "array", "items": { "type": "number" }, "description": "Embedding vectors generated from the text." },
+        "sentiment": { "type": "string", "enum": ["neutral", "favorable", "desfavorable"], "description": "Sentiment analysis of the document regarding a topic." },
+        "processed_at": { "type": "string", "format": "date-time", "description": "Date and time the document was processed." }
+      }
+    },
+    "procedural_info": {
+      "type": "object",
+      "description": "Information about the procedural status of the document (if it is a ruling or file).",
+      "properties": {
+        "instance": { "type": "string", "enum": ["primera", "segunda", "casación", "suprema"], "description": "Judicial instance in which the resolution is issued." },
+        "resolution_type": { "type": "string", "enum": ["sentencia", "auto", "providencia"], "description": "Type of judicial resolution." },
+        "vote": { "type": "string", "enum": ["unánime", "mayoría", "disidencia"], "description": "Type of vote of the judges." },
+        "appeal_status": { "type": "string", "enum": ["apelable", "firme", "apelado"], "description": "Status of the possibility of appeal." },
+        "execution_status": { "type": "string", "enum": ["pendiente", "ejecutado", "suspendido"], "description": "Status of the execution of the sentence." }
+      }
+    },
+    "search_fields": {
+      "type": "object",
+      "description": "Fields optimized for document search and ranking.",
+      "properties": {
+        "searchable_text": { "type": "string", "description": "Pre-processed and optimized text for full-text searches." },
+        "boost_score": { "type": "number", "description": "Score to increase the relevance of this document in search results." },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "Tags to facilitate searching and filtering." },
+        "custom_ranking": { "type": "integer", "description": "Numeric value for custom sorting." }
+      }
+    }
+  },
+  "required": [
+    "document_id",
+    "metadata",
+    "content"
+  ]
+}
