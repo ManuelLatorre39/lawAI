@@ -1,79 +1,72 @@
 {
-  "document_id": "CODIGO_PENAL_ARGENTINA_11179",
+  "document_id": "MPF-RO-03403-2024",
   "metadata": {
-    "title": "Código Penal de la Nación Argentina",
-    "source": "Boletín Oficial",
+    "title": "QUEZADA MELO, MAYRA SOLEDAD S/INCUMPLIMIENTO DE LOS DEBERES DE FUNCIONARIO PÚBLICO",
+    "source": "Desconocida",
     "url": null,
-    "document_type": "ley",
+    "document_type": "acta",
     "status": "vigente",
     "validity_dates": {
-      "start_date": "1984-01-01",
+      "start_date": "2025-09-08",
       "end_date": null,
-      "promulgation_date": "1984-01-01"
+      "promulgation_date": "2025-09-08"
     },
-    "jurisdiction": "nacional",
+    "jurisdiction": "provincial",
     "legal_area": [
-      "penal"
+      "penal",
+      "administrativo"
     ]
   },
   "content": {
-    "full_text": "CODIGO PENAL DE LA NACION ARGENTINA\nLEY 11.179 (T.O. 1984 actualizado)\nIndice Temático\nLIBRO PRIMERO\nDISPOSICIONES GENERALES\nTITULO I APLICACION DE LA LEY PENAL Arts.1 a 4\nTITULO II DE LAS PENAS Arts. 5 a 25\nTITULO III CONDENACION CONDICIONAL Arts. 26 a 29\nTITULO IV REPARACION DE PERJUICIOS Arts. 30 a 33\nTITULO V IMPUTABILIDAD Arts. 34 a 41\nTITULO VI TENTATIVA Arts. 42 a 44\nTITULO\nVII PARTICIPACION CRIMINAL Arts. 45 a 49\nTITULO\nVIII REINCIDENCIA Arts. 50 a 53\nTITULO IX CONCURSO DE DELITOS Arts. 54 a 58\nTITULO X EXTINCION DE ACCIONES Y DE PENAS Arts. 59 a 70\nTITULO XI DEL EJERCICIO DE LAS ACCIONES Arts. 71 a 76\nTITULO\nXII DE LA SUSPENSIÓN DEL JUICIO A PRUEBAArts. 76 bis a\n76 quater\nTITULO\nXIII SIGNIFICACION DE CONCEPTOS\nEMPLEADOS EN EL CODIGO\nArts. 77 a 78\nbis\nLIBRO SEGUNDO\nDE LOS DELITOS\nTITULO I DELITOS CONTRA LAS PERSONAS Arts. 79 a 108\nTITULO II DELITOS CONTRA EL HONOR Arts. 109 a\n117 bis\nTITULO III DELITOS CONTRA LA INTEGRIDAD\nSEXUAL\nArts. 118 a\n133\nTITULO IV DELITOS CONTRA EL ESTADO CIVIL Arts. 134 a\n139 bis\nTITULO V DELITOS CONTRA LA LIBERTAD Arts. 140 a\n161\nTITULO VI DELITOS CONTRA LA PROPIEDAD Arts. 162 a\n185\nTITULO VII DELITOS CONTRA LA SEGURIDAD\nPUBLICA\nArts. 186 a\n208\nTITULO VIII DELITOS CONTRA EL ORDEN PUBLICO Arts. 209 a\n213 bis\nTITULO IX DELITOS CONTRA LA SEGURIDAD DE LA\nNACION\nArts. 214 a\n225\nTITULO X DELITOS CONTRA LOS PODERES\nPUBLICOS Y EL ORDEN CONSTITUCIONAL\nArts. 226 a\n236",
-    "structured_sections": []
+    "full_text": "I. Lugar y fecha de la realización de la audiencia ; Ciudad de General Roca,  08 de \nseptiembre de 2025. \n \nII. Caratula y N° de Legajo ; QUEZADA MELO, MAYRA SOLEDAD \nS/INCUMPLIMIENTODE LOS DEBERES DE FUNCIONARIO PÚBLICO.  \nMPF-RO-03403-2024. \n \nIII. La transcripción del hecho imputado por el Ministerio Público Fiscal;",
+    "structured_sections": [
+      {
+        "section_number": "I",
+        "title": "Lugar y fecha de la realización de la audiencia",
+        "content": "Ciudad de General Roca,  08 de septiembre de 2025."
+      },
+      {
+        "section_number": "II",
+        "title": "Caratula y N° de Legajo",
+        "content": "QUEZADA MELO, MAYRA SOLEDAD S/INCUMPLIMIENTODE LOS DEBERES DE FUNCIONARIO PÚBLICO.  MPF-RO-03403-2024."
+      },
+      {
+        "section_number": "III",
+        "title": "La transcripción del hecho imputado por el Ministerio Público Fiscal",
+        "content": ""
+      }
+    ]
   },
   "extracted_entities": {
-    "laws_cited": [
-      "Ley 11.179"
-    ],
-    "articles": [
-      "Arts. 1 a 4",
-      "Arts. 5 a 25",
-      "Arts. 26 a 29",
-      "Arts. 30 a 33",
-      "Arts. 34 a 41",
-      "Arts. 42 a 44",
-      "Arts. 45 a 49",
-      "Arts. 50 a 53",
-      "Arts. 54 a 58",
-      "Arts. 59 a 70",
-      "Arts. 71 a 76",
-      "Arts. 76 bis a 76 quater",
-      "Arts. 77 a 78",
-      "Arts. 79 a 108",
-      "Arts. 109 a 117 bis",
-      "Arts. 118 a 133",
-      "Arts. 134 a 139 bis",
-      "Arts. 140 a",
-      "Arts. 140 a 161",
-      "Arts. 162 a 185",
-      "Arts. 186 a 208",
-      "Arts. 209 a 213 bis",
-      "Arts. 214 a 225",
-      "Arts. 226 a 236"
-    ],
+    "laws_cited": [],
+    "articles": [],
     "decrees_cited": [],
     "resolutions_cited": [],
     "treaties_cited": [],
     "constitutions_cited": [],
     "regulations_cited": [],
-    "case_numbers": [],
+    "case_numbers": [
+      "MPF-RO-03403-2024"
+    ],
     "judges": [],
     "courts": [],
     "previous_rulings": [],
     "judicial_chambers": [],
     "case_parties": {
-      "actor": null,
-      "demandado": null
+      "actor": "",
+      "demandado": "QUEZADA MELO, MAYRA SOLEDAD"
     },
     "lawyers": [],
-    "prosecutors": [],
+    "prosecutors": [
+      "Florencia Quintana"
+    ],
     "witnesses": [],
     "document_references": [],
     "keywords": [
-      "Código Penal",
-      "Ley Penal",
-      "Penas",
-      "Imputabilidad",
-      "Tentativa"
+      "audiencia",
+      "legajo",
+      "funcionario público",
+      "incumplimiento de los deberes"
     ]
   },
   "relationships": {
@@ -87,13 +80,10 @@
     "related_cases": []
   },
   "analysis": {
-    "summary": "El documento es el Código Penal de la Nación Argentina, Ley 11.179 (T.O. 1984 actualizado), que establece las disposiciones generales relativas a la aplicación de la ley penal, las penas, la condenación condicional, la reparación de perjuicios, la imputabilidad y la tentativa.",
+    "summary": "Acta de audiencia relacionada con el legajo MPF-RO-03403-2024, caratulado 'QUEZADA MELO, MAYRA SOLEDAD S/INCUMPLIMIENTO DE LOS DEBERES DE FUNCIONARIO PÚBLICO', realizada el 08 de septiembre de 2025 en General Roca.",
     "main_topics": [
-      "Derecho Penal",
-      "Disposiciones Generales",
-      "Penas",
-      "Imputabilidad",
-      "Tentativa"
+      "incumplimiento de los deberes de funcionario público",
+      "audiencia judicial"
     ],
     "legal_precedents": [],
     "doctrine_cited": [],
@@ -101,14 +91,20 @@
     "sentiment": "neutral",
     "processed_at": null
   },
-  "procedural_info": {},
+  "procedural_info": {
+    "instance": null,
+    "resolution_type": null,
+    "vote": null,
+    "appeal_status": null,
+    "execution_status": null
+  },
   "search_fields": {
-    "searchable_text": "codigo penal nacion argentina ley 11179 to 1984 actualizado indice tematico libro primero disposiciones generales titulo i aplicacion ley penal arts1 4 titulo ii penas arts 5 25 titulo iii condenacion condicional arts 26 29 titulo iv reparacion perjuicios arts 30 33 titulo v imputabilidad arts 34 41 titulo vi tentativa arts 42 44 titulo vii",
+    "searchable_text": "QUEZADA MELO MAYRA SOLEDAD INCUMPLIMIENTO DEBERES FUNCIONARIO PÚBLICO MPF-RO-03403-2024 Ciudad General Roca 08 septiembre 2025 audiencia",
     "boost_score": null,
     "tags": [
-      "código penal",
-      "ley",
-      "argentina"
+      "audiencia",
+      "incumplimiento de deberes",
+      "funcionario público"
     ],
     "custom_ranking": null
   }
