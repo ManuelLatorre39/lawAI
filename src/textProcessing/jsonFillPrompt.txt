@@ -1,8 +1,12 @@
-You are an expert legal document analysis AI. Your task is to analyze the provided legal document and generate a single, complete JSON object based on the structure and constraints defined in the JSON schema below.
+Tu tarea es analizar el siguiente documento legal y devolver UN ÚNICO objeto JSON que cumpla EXACTAMENTE con el JSON Schema provisto más abajo.
 
-**KEY INSTRUCTIONS:**
-1.  **Strict Schema Adherence:** The generated JSON must strictly follow the provided JSON schema.
-2.  **Spanish Language for Values:** All string values, enumerations, and content within the JSON output **MUST** be in Spanish. This includes summaries, extracted entities, and any textual content.
-3.  **JSON-Only Response:** Your entire response must be **ONLY** the raw JSON object. Do not include any introductory text, explanations, markdown code blocks (```json), or any other formatting. Start directly with { and end with }.
-
-
+- Devuelve SOLO JSON válido (sin backticks, sin Markdown, sin texto antes o después).
+- No copies el texto del documento tal cual; tu misión es rellenar el schema con la información que el texto contenga.
+- Mantén los nombres de claves exactamente como aparecen en el schema.
+- Si no hay información para un campo, usa:
+  - null para valores únicos,
+  - [] para listas,
+  - "" para textos vacíos.
+- Todos los textos deben estar en español.
+- No elimines ni cambies la estructura ni los tipos de datos.
+- Asegúrate de que el JSON resultante sea parseable (comience con { y termine con }).
