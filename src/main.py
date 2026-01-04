@@ -29,13 +29,11 @@ async def upload_file(file: UploadFile = File(...)):
     with open(file_path, "wb") as f:
         f.write(await file.read())
 
-    '''
     # Extract + chunk + embed
     text = chunking.extract_text(file_path)
     chunks = chunking.chunk_text(text)
     chunks = chunks[:4]
     refined_json = chunking.process_chunks(chunks)
-    '''
     file_path = os.path.join(TEMP_DIR, f"{file_id}_{file.filename}.json")
     
     '''
@@ -50,7 +48,7 @@ async def upload_file(file: UploadFile = File(...)):
     with open(temp_path, 'r', encoding='utf-8') as f:
         refined_json = json.load(f)
     
-    embeddings.embed_and_store(refined_json)
+    embeddings.embed_and_store(refined_json) ## Enviar chunks, no el refined_json !!
 
     return {
         "status": "ok", 

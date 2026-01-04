@@ -1,0 +1,283 @@
+{
+    "mapping": {
+        "settings": {
+            "analysis": {
+                "analyzer": {
+                    "spanish_text": {
+                        "type": "standard",
+                        "stopwords": "_spanish_"
+                    }
+                }
+            }
+        },
+        "mappings": {
+            "properties": {
+                "document_id": {
+                    "type": "keyword"
+                },
+                "metadata": {
+                    "properties": {
+                        "title": {
+                            "type": "text",
+                            "analyzer": "spanish_text"
+                        },
+                        "source": {
+                            "type": "keyword"
+                        },
+                        "url": {
+                            "type": "keyword"
+                        },
+                        "document_type": {
+                            "type": "keyword"
+                        },
+                        "status": {
+                            "type": "keyword"
+                        },
+                        "jurisdiction": {
+                            "type": "keyword"
+                        },
+                        "legal_area": {
+                            "type": "keyword"
+                        },
+                        "validity_dates": {
+                            "properties": {
+                                "start_date": {
+                                    "type": "date"
+                                },
+                                "end_date": {
+                                    "type": "date"
+                                },
+                                "promulgation_date": {
+                                    "type": "date"
+                                }
+                            }
+                        }
+                    }
+                },
+                "content": {
+                    "properties": {
+                        "document_path": {
+                            "type": "text",
+                            "analyzer": "spanish_text"
+                        },
+                        "structured_sections": {
+                            "type": "nested",
+                            "properties": {
+                                "section_number": {
+                                    "type": "keyword"
+                                },
+                                "title": {
+                                    "type": "text",
+                                    "analyzer": "spanish_text",
+                                    "fields": {
+                                        "keyword": {
+                                            "type": "keyword"
+                                        }
+                                    }
+                                },
+                                "content": {
+                                    "type": "text",
+                                    "analyzer": "spanish_text"
+                                }
+                            }
+                        }
+                    }
+                },
+                "extracted_entities": {
+                    "properties": {
+                        "laws_cited": {
+                            "type": "keyword"
+                        },
+                        "articles": {
+                            "type": "keyword"
+                        },
+                        "decrees_cited": {
+                            "type": "keyword"
+                        },
+                        "resolutions_cited": {
+                            "type": "keyword"
+                        },
+                        "treaties_cited": {
+                            "type": "keyword"
+                        },
+                        "constitutions_cited": {
+                            "type": "keyword"
+                        },
+                        "regulations_cited": {
+                            "type": "keyword"
+                        },
+                        "case_numbers": {
+                            "type": "keyword"
+                        },
+                        "judges": {
+                            "type": "text",
+                            "analyzer": "spanish_text"
+                        },
+                        "courts": {
+                            "type": "text",
+                            "analyzer": "spanish_text"
+                        },
+                        "previous_rulings": {
+                            "type": "keyword"
+                        },
+                        "judicial_chambers": {
+                            "type": "keyword"
+                        },
+                        "case_parties": {
+                            "properties": {
+                                "actor": {
+                                    "type": "text",
+                                    "analyzer": "spanish_text",
+                                    "fields": {
+                                        "keyword": {
+                                            "type": "keyword"
+                                        }
+                                    }
+                                },
+                                "demandado": {
+                                    "type": "text",
+                                    "analyzer": "spanish_text",
+                                    "fields": {
+                                        "keyword": {
+                                            "type": "keyword"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "lawyers": {
+                            "type": "text",
+                            "analyzer": "spanish_text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword"
+                                }
+                            }
+                        },
+                        "prosecutors": {
+                            "type": "text",
+                            "analyzer": "spanish_text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword"
+                                }
+                            }
+                        },
+                        "witnesses": {
+                            "type": "text",
+                            "analyzer": "spanish_text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword"
+                                }
+                            }
+                        },
+                        "document_references": {
+                            "type": "text",
+                            "analyzer": "spanish_text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword"
+                                }
+                            }
+                        }
+                    }
+                },
+                "relationships": {
+                    "type": "object",
+                    "properties": {
+                        "modifies": {
+                            "type": "keyword"
+                        },
+                        "modified_by": {
+                            "type": "keyword"
+                        },
+                        "derogates": {
+                            "type": "keyword"
+                        },
+                        "derogated_by": {
+                            "type": "keyword"
+                        },
+                        "complements": {
+                            "type": "keyword"
+                        },
+                        "parent_law": {
+                            "type": "keyword"
+                        },
+                        "regulations": {
+                            "type": "keyword"
+                        },
+                        "related_cases": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "analysis": {
+                    "type": "object",
+                    "properties": {
+                        "summary": {
+                            "type": "text"
+                        },
+                        "main_topics": {
+                            "type": "keyword"
+                        },
+                        "legal_precedents": {
+                            "type": "keyword"
+                        },
+                        "doctrine_cited": {
+                            "type": "keyword"
+                        },
+                        "embeddings": {
+                            "type": "dense_vector",
+                            "dims": 768
+                        },
+                        "sentiment": {
+                            "type": "keyword"
+                        },
+                        "processed_at": {
+                            "type": "date"
+                        }
+                    }
+                },
+                "procedural_info": {
+                    "type": "object",
+                    "properties": {
+                        "instance": {
+                            "type": "keyword"
+                        },
+                        "resolution_type": {
+                            "type": "keyword"
+                        },
+                        "vote": {
+                            "type": "keyword"
+                        },
+                        "appeal_status": {
+                            "type": "keyword"
+                        },
+                        "execution_status": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "search_fields": {
+                    "type": "object",
+                    "properties": {
+                        "searchable_text": {
+                            "type": "text"
+                        },
+                        "boost_score": {
+                            "type": "float"
+                        },
+                        "tags": {
+                            "type": "keyword"
+                        },
+                        "custom_ranking": {
+                            "type": "integer"
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
