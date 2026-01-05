@@ -1,154 +1,85 @@
 {
-  "document_id": "CPN-ARG-11179",
+  "document_id": "",
   "metadata": {
-    "title": "Código Penal de la Nación Argentina",
-    "source": "Boletín Oficial de la República Argentina",
-    "url": null,
-    "document_type": "ley",
-    "status": "vigente",
+    "title": "",
+    "source": "",
+    "url": "",
+    "document_type": "",
+    "status": "",
     "validity_dates": {
-      "start_date": "1984-01-01",
+      "start_date": "",
       "end_date": null,
-      "promulgation_date": "1984-01-01"
+      "promulgation_date": ""
     },
-    "jurisdiction": "nacional",
+    "jurisdiction": "",
     "legal_area": [
-      "penal"
+      "penal",
+      "administrativo"
     ]
   },
   "content": {
-    "full_text": "CODIGO PENAL DE LA NACION ARGENTINA\nLEY 11.179 (T.O. 1984 actualizado)\nIndice Temático\nLIBRO PRIMERO\nDISPOSICIONES GENERALES\nTITULO I APLICACION DE LA LEY PENAL Arts.1 a 4\nTITULO II DE LAS PENAS Arts. 5 a 25\nTITULO III CONDENACION CONDICIONAL Arts. 26 a 29\nTITULO IV REPARACION DE PERJUICIOS Arts. 30 a 33\nTITULO V IMPUTABILIDAD Arts. 34 a 41\nTITULO VI TENTATIVA Arts. 42 a 44\nTITULO\nVII",
+    "full_text": "",
     "structured_sections": [
       {
-        "section_number": "LIBRO PRIMERO",
-        "title": "DISPOSICIONES GENERALES",
-        "content": null
+        "section_number": "I",
+        "title": "Lugar y fecha de la realización de la audiencia",
+        "content": "Ciudad de General Roca, 08 de septiembre de 2025."
       },
       {
-        "section_number": "TITULO I",
-        "title": "APLICACION DE LA LEY PENAL",
-        "content": "Arts.1 a 4"
+        "section_number": "II",
+        "title": "Caratula y N° de Legajo",
+        "content": "QUEZADA MELO, MAYRA SOLEDAD S/INCUMPLIMIENTODE LOS DEBERES DE FUNCIONARIO PÚBLICO. MPF-RO-03403-2024."
       },
       {
-        "section_number": "TITULO II",
-        "title": "DE LAS PENAS",
-        "content": "Arts. 5 a 25"
+        "section_number": "III",
+        "title": "La transcripción del hecho imputado por el Ministerio Público Fiscal",
+        "content": ""
       },
       {
-        "section_number": "TITULO III",
-        "title": "CONDENACION CONDICIONAL",
-        "content": "Arts. 26 a 29"
+        "section_number": "III",
+        "title": "La transcripción del hecho imputado por el Ministerio Público Fiscal",
+        "content": "La representante del Ministerio P úblico Fiscal describió, el día 16 de mayo de l 2024, Florencia Quintana, quien es la víctima, se encontraba en su domicilio, cuando su expareja Andrés Contreras, irrumpe en el hogar a eso de las 23:30 horas , le quita su celular, para luego comenzar a agredirla físicamente frente a sus hijos menores de edad,"
       },
       {
-        "section_number": "TITULO IV",
-        "title": "REPARACION DE PERJUICIOS",
-        "content": "Arts. 30 a 33"
-      },
-      {
-        "section_number": "TITULO V",
-        "title": "IMPUTABILIDAD",
-        "content": "Arts. 34 a 41"
-      },
-      {
-        "section_number": "TITULO VI",
-        "title": "TENTATIVA",
-        "content": "Arts. 42 a 44"
-      },
-      {
-        "section_number": "TITULO VII",
-        "title": "PARTICIPACION CRIMINAL",
-        "content": "Arts. 45 a 49"
-      },
-      {
-        "section_number": "TITULO VIII",
-        "title": "REINCIDENCIA",
-        "content": "Arts. 50 a 53"
-      },
-      {
-        "section_number": "TITULO IX",
-        "title": "CONCURSO DE DELITOS",
-        "content": "Arts. 54 a 58"
-      },
-      {
-        "section_number": "TITULO X",
-        "title": "EXTINCION DE ACCIONES Y DE PENAS",
-        "content": "Arts. 59 a 70"
-      },
-      {
-        "section_number": "TITULO XI",
-        "title": "DEL EJERCICIO DE LAS ACCIONES",
-        "content": "Arts. 71 a 76"
-      },
-      {
-        "section_number": "TITULO XII",
-        "title": "DE LA SUSPENSIÓN DEL JUICIO A PRUEBA",
-        "content": "Arts. 76 bis a\n76 quater"
-      },
-      {
-        "section_number": "TITULO XIII",
-        "title": "SIGNIFICACION DE CONCEPTOS",
-        "content": null
+        "section_number": "III",
+        "title": "La transcripción del hecho imputado por el Ministerio Público Fiscal",
+        "content": "La representante del Ministerio P úblico Fiscal describió, el día 16 de mayo de l 2024, Florencia Quintana, quien es la víctima, se encontraba en su domicilio, cuando su expareja Andrés Contreras, irrumpe en el hogar a eso de las 23:30 horas , le quita su celular, para luego comenzar a agredirla físicamente frente a sus hijos menores de edad, y posteriormente darse  a la fuga.  Cabe agregar  y aclarar , que la señora Florencia \nQuintana anteriormente ya había realizado una denuncia de violencia de g énero en \ncontra de Andrés Contreras. En el lugar del hecho, se presentó la oficial Mayra Quezada, \nquien le comunica a la víctima que debía presentarse en la Comisaria de la Familia a"
       }
     ]
   },
   "extracted_entities": {
-    "laws_cited": [
-      "LEY 11.179"
-    ],
-    "articles": [
-      "Arts.1",
-      "Arts. 4",
-      "Arts. 5",
-      "Arts. 25",
-      "Arts. 26",
-      "Arts. 29",
-      "Arts. 30",
-      "Arts. 33",
-      "Arts. 34",
-      "Arts. 41",
-      "Arts. 42",
-      "Arts. 44",
-      "Arts. 45",
-      "Arts. 49",
-      "Arts. 50",
-      "Arts. 53",
-      "Arts. 54",
-      "Arts. 58",
-      "Arts. 59",
-      "Arts. 70",
-      "Arts. 71",
-      "Arts. 76",
-      "Arts. 76 bis",
-      "Arts. 76 quater"
-    ],
+    "laws_cited": [],
+    "articles": [],
     "decrees_cited": [],
     "resolutions_cited": [],
     "treaties_cited": [],
     "constitutions_cited": [],
     "regulations_cited": [],
-    "case_numbers": [],
+    "case_numbers": [
+      "MPF-RO-03403-2024"
+    ],
     "judges": [],
     "courts": [],
     "previous_rulings": [],
     "judicial_chambers": [],
-    "case_parties": {},
+    "case_parties": {
+      "actor": "",
+      "demandado": ""
+    },
     "lawyers": [],
-    "prosecutors": [],
-    "witnesses": [],
+    "prosecutors": [
+      "Ministerio Público Fiscal"
+    ],
+    "witnesses": [
+      "Florencia Quintana"
+    ],
     "document_references": [],
     "keywords": [
-      "código penal",
-      "ley penal",
-      "penas",
-      "condenación condicional",
-      "reparación de perjuicios",
-      "imputabilidad",
-      "tentativa",
-      "participación criminal",
-      "reincidencia",
-      "concurso de delitos",
-      "extinción de acciones",
-      "suspensión del juicio a prueba"
+      "incumplimiento de los deberes de funcionario público",
+      "violencia de género",
+      "agresión física",
+      "violencia intrafamiliar",
+      "denuncia previa"
     ]
   },
   "relationships": {
@@ -157,36 +88,47 @@
     "derogates": [],
     "derogated_by": null,
     "complements": [],
-    "parent_law": null,
+    "parent_law": "",
     "regulations": [],
     "related_cases": []
   },
   "analysis": {
-    "summary": "Este documento es el Código Penal de la Nación Argentina, Ley 11.179, actualizado a 1984. Incluye disposiciones generales sobre la aplicación de la ley penal, las penas, la condenación condicional, la reparación de perjuicios, la imputabilidad y la tentativa.",
+    "summary": "",
     "main_topics": [
-      "ley penal",
-      "penas",
-      "condenación condicional",
-      "reparación de perjuicios",
-      "imputabilidad",
-      "tentativa"
+      "incumplimiento de deberes de funcionario público",
+      "audiencia",
+      "proceso penal",
+      "violencia de género",
+      "agresión física",
+      "denuncia previa"
     ],
     "legal_precedents": [],
     "doctrine_cited": [],
     "embeddings": [],
-    "sentiment": "neutral",
-    "processed_at": "2024-01-01T00:00:00Z"
+    "sentiment": "",
+    "processed_at": ""
   },
-  "procedural_info": {},
+  "procedural_info": {
+    "instance": "",
+    "resolution_type": "",
+    "vote": "",
+    "appeal_status": "",
+    "execution_status": ""
+  },
   "search_fields": {
-    "searchable_text": "código penal nación argentina ley 11179 disposiciones generales aplicación ley penal penas condenación condicional reparación perjuicios imputabilidad tentativa",
-    "boost_score": 1.0,
+    "searchable_text": "",
+    "boost_score": null,
     "tags": [
-      "código penal",
-      "ley",
-      "argentina",
-      "penal"
+      "audiencia",
+      "funcionario público",
+      "incumplimiento de deberes",
+      "Ministerio Público Fiscal",
+      "General Roca",
+      "violencia de género",
+      "agresión física",
+      "violencia intrafamiliar",
+      "denuncia previa"
     ],
-    "custom_ranking": 100
+    "custom_ranking": null
   }
 }

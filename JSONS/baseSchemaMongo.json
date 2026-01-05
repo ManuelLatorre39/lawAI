@@ -1,0 +1,148 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schema for LawAI Legal Documents (MongoDB Optimized)",
+  "description": "Structure for storing legal documents in MongoDB. Dates should be stored as BSON Dates.",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "description": "MongoDB ObjectId or unique custom string ID."
+    },
+    "document_id": {
+      "type": "string",
+      "description": "External unique identifier (e.g., official law number)."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Contains general metadata about the document.",
+      "properties": {
+        "title": { "type": "string" },
+        "source": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "document_type": {
+          "type": "string",
+          "enum": [
+            "ley", "sentencia", "contrato", "decreto", "resolución", "ordenanza", "disposición", "acordada", "reglamento", "decisión_administrativa", "auto", "providencia", "fallo", "dictamen", "pericia", "acta", "oficio", "convenio", "acuerdo", "escritura", "poder", "testamento", "nota", "informe", "memorial", "recurso", "constitución", "tratado", "declaración"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["vigente", "derogado", "modificado", "suspendido"]
+        },
+        "validity_dates": {
+          "type": "object",
+          "properties": {
+            "start_date": { "bsonType": "date", "description": "Store as ISODate" },
+            "end_date": { "bsonType": ["date", "null"], "description": "Store as ISODate" },
+            "promulgation_date": { "bsonType": "date", "description": "Store as ISODate" }
+          }
+        },
+        "jurisdiction": {
+          "type": "string",
+          "enum": ["nacional", "provincial", "municipal", "desconocida"]
+        },
+        "legal_area": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "civil", "penal", "laboral", "comercial", "constitucional", "administrativo", "tributario", "fiscal", "procesal_penal", "procesal_civil", "internacional_público", "familia", "sucesiones", "consumidor", "contratos", "daños", "responsabilidad_civil", "ambiental", "minero", "agrario", "bancario", "financiero", "seguros", "societario", "concursal", "quiebras", "marítimo", "aeronáutico", "energético", "telecomunicaciones", "propiedad_intelectual", "informático", "tecnológico", "previsional", "seguridad_social", "salud", "educación", "urbanístico", "migración", "migratorio", "electoral", "deportivo", "desconocida"
+            ]
+          }
+        }
+      },
+      "required": ["title", "source", "document_type", "status", "validity_dates", "jurisdiction", "legal_area"]
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "full_text": { "type": "string" },
+        "structured_sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "section_number": { "type": "string" },
+              "title": { "type": "string" },
+              "content": { "type": "string" }
+            },
+            "required": ["section_number", "title", "content"]
+          }
+        }
+      },
+      "required": ["full_text"]
+    },
+    "extracted_entities": {
+      "type": "object",
+      "properties": {
+        "laws_cited": { "type": "array", "items": { "type": "string" } },
+        "articles": { "type": "array", "items": { "type": "string" } },
+        "decrees_cited": { "type": "array", "items": { "type": "string" } },
+        "resolutions_cited": { "type": "array", "items": { "type": "string" } },
+        "treaties_cited": { "type": "array", "items": { "type": "string" } },
+        "constitutions_cited": { "type": "array", "items": { "type": "string" } },
+        "regulations_cited": { "type": "array", "items": { "type": "string" } },
+        "case_numbers": { "type": "array", "items": { "type": "string" } },
+        "judges": { "type": "array", "items": { "type": "string" } },
+        "courts": { "type": "array", "items": { "type": "string" } },
+        "previous_rulings": { "type": "array", "items": { "type": "string" } },
+        "judicial_chambers": { "type": "array", "items": { "type": "string" } },
+        "case_parties": {
+          "type": "object",
+          "properties": {
+            "actor": { "type": "string" },
+            "demandado": { "type": "string" }
+          }
+        },
+        "lawyers": { "type": "array", "items": { "type": "string" } },
+        "prosecutors": { "type": "array", "items": { "type": "string" } },
+        "witnesses": { "type": "array", "items": { "type": "string" } },
+        "document_references": { "type": "array", "items": { "type": "string" } },
+        "keywords": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "modifies": { "type": "array", "items": { "type": "string" } },
+        "modified_by": { "type": "array", "items": { "type": "string" } },
+        "derogates": { "type": "array", "items": { "type": "string" } },
+        "derogated_by": { "type": ["string", "null"] },
+        "complements": { "type": "array", "items": { "type": "string" } },
+        "parent_law": { "type": "string" },
+        "regulations": { "type": "array", "items": { "type": "string" } },
+        "related_cases": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string" },
+        "main_topics": { "type": "array", "items": { "type": "string" } },
+        "legal_precedents": { "type": "array", "items": { "type": "string" } },
+        "doctrine_cited": { "type": "array", "items": { "type": "string" } },
+        "embeddings": { 
+            "type": "array", 
+            "items": { "type": "number" },
+            "description": "Vector embedding for semantic search" 
+        },
+        "sentiment": { "type": "string", "enum": ["neutral", "favorable", "desfavorable"] },
+        "processed_at": { "bsonType": "date", "description": "Store as ISODate" }
+      }
+    },
+    "procedural_info": {
+      "type": "object",
+      "properties": {
+        "instance": { "type": "string", "enum": ["primera", "segunda", "casación", "suprema"] },
+        "resolution_type": { "type": "string", "enum": ["sentencia", "auto", "providencia"] },
+        "vote": { "type": "string", "enum": ["unánime", "mayoría", "disidencia"] },
+        "appeal_status": { "type": "string", "enum": ["apelable", "firme", "apelado"] },
+        "execution_status": { "type": "string", "enum": ["pendiente", "ejecutado", "suspendido"] }
+      }
+    }
+  },
+  "required": [
+    "document_id",
+    "metadata",
+    "content"
+  ]
+}

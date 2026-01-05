@@ -36,6 +36,7 @@ dist/
 venv/
 .venv/
 tmp/
+.venv/
 
 # Node.js (por si acaso)
 node_modules/
