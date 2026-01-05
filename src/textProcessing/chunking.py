@@ -11,9 +11,10 @@ import json
 
 def load_prompts_and_schema():
     base_dir = Path(__file__).parent
+    dir_jsons = Path(__file__).parent.parent.parent
 
     # Build paths safely
-    schema_path = base_dir / "baseSchema.json"
+    schema_path = dir_jsons / "JSONS" / "baseSchema.json" # "baseSchema.json" DEPRECATED - reemplazo por schema Mongo
     fill_prompt_path = base_dir / "jsonFillPrompt.txt"
     refine_prompt_path = base_dir / "jsonRefinePrompt.txt"
 
