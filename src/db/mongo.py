@@ -12,3 +12,4 @@ db = client["lawai"]
 
 documents_col = db["documents"]
 chunks_col = db["document_chunks"]
+analysis_col = db["document_analysis"]
