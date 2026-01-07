@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pathlib import Path
 from fastapi import FastAPI
@@ -9,6 +10,14 @@ root_root_dir = Path(__file__).resolve().parent.parent
 load_dotenv(dotenv_path=root_dir / ".env")
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],          # during development
+    allow_credentials=True,
+    allow_methods=["*"],          # <-- allows OPTIONS
+    allow_headers=["*"],
+)
 
 app.include_router(upload_router)
 
