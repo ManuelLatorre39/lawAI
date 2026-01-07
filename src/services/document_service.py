@@ -1,5 +1,8 @@
-from src.db.mongo import documents_col, analysis_col
+from src.db.mongo import documents_col, analysis_col, chunks_col
 from datetime import datetime, timezone
+from typing import List
+import ollama
+import math
 
 def get_all_documents():
     docs = documents_col.find(
@@ -61,3 +64,68 @@ def serialize_document(doc):
             else None
         ),
     }
+
+def cosine_similarity(a: List[float], b: List[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(x * x for x in b))
+    return dot / (norm_a * norm_b)
+
+def search_documents(query: str, top_k: int = 5):
+    """
+    Semantic search over document chunks.
+    Returns grouped results by document.
+    """
+
+    # Embed query
+    query_embedding = ollama.embeddings(
+        model="nomic-embed-text",
+        prompt=query
+    )["embedding"]
+
+    # Fetch candidate chunks
+    # (simple approach: brute force, OK for MVP)
+    chunks = list(chunks_col.find({}, {
+        "embedding": 1,
+        "text": 1,
+        "document_id": 1,
+        "chunk_id": 1
+    }))
+
+    # Score chunks
+    scored = []
+    for chunk in chunks:
+        score = cosine_similarity(query_embedding, chunk["embedding"])
+        scored.append({
+            "document_id": chunk["document_id"],
+            "chunk_id": chunk["_id"],
+            "text": chunk["text"],
+            "score": score
+        })
+
+    # Sort + take top K
+    top_chunks = sorted(scored, key=lambda x: x["score"], reverse=True)[:top_k]
+
+    # Group by document
+    results = {}
+    for c in top_chunks:
+        doc_id = c["document_id"]
+
+        if doc_id not in results:
+            doc = documents_col.find_one(
+                {"_id": doc_id},
+                {"filename": 1, "status": 1}
+            )
+            results[doc_id] = {
+                "document_id": doc_id,
+                "filename": doc.get("filename") if doc else None,
+                "matches": []
+            }
+
+        results[doc_id]["matches"].append({
+            "chunk_id": c["chunk_id"],
+            "text": c["text"],
+            "score": round(c["score"], 4)
+        })
+
+    return list(results.values())
