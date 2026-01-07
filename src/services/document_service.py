@@ -2,8 +2,18 @@ from src.db.mongo import documents_col, analysis_col
 from datetime import datetime, timezone
 
 def get_all_documents():
-    # Return raw Mongo documents
-    return list(documents_col.find({}, {"_id": 1, "filename": 1, "status": 1, "created_at": 1, "updated_at": 1}))
+    docs = documents_col.find(
+        {},
+        {
+            "_id": 1,
+            "filename": 1,
+            "status": 1,
+            "created_at": 1,
+            "updated_at": 1,
+        },
+    )
+
+    return [serialize_document(doc) for doc in docs]
 
 def save_document(document_id: str, filename: str):
     documents_col.insert_one({
@@ -30,3 +40,24 @@ def update_status(document_id: str, status: str):
             }
         }
     )
+    
+def serialize_document(doc):
+    return {
+        "id": str(doc["_id"]),
+        "filename": doc["filename"],
+        "status": doc["status"],
+        "created_at": (
+            doc["created_at"]
+            .replace(tzinfo=timezone.utc)
+            .isoformat()
+            if doc.get("created_at")
+            else None
+        ),
+        "updated_at": (
+            doc["updated_at"]
+            .replace(tzinfo=timezone.utc)
+            .isoformat()
+            if doc.get("updated_at")
+            else None
+        ),
+    }
