@@ -2,15 +2,19 @@ from fastapi import APIRouter, UploadFile, File, BackgroundTasks
 import uuid
 import os
 
-from src.services.document_service import save_document
+from src.services.document_service import save_document, get_all_documents
 from src.services.processing_service import process_document
 
 UPLOAD_DIR = "storage/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-router = APIRouter(prefix="/upload", tags=["upload"])
+router = APIRouter(prefix="/documents", tags=["upload"])
 
-@router.post("/")
+@router.get("")
+def get_documents():
+    return get_all_documents()
+
+@router.post("/upload")
 async def upload_file(
     file: UploadFile = File(...),
     background_tasks: BackgroundTasks = None
