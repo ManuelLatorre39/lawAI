@@ -6,7 +6,7 @@ from src.services.document_service import save_document_analysis
 #     save_document_analysis(document_id, analysis)
 #     return analysis
 
-from src.textProcessing.gemini_analisys import process_chunks
+from src.textProcessing.gemini_analysis import process_chunks
 
 def generate_and_store_analysis(document_id: str, chunks: list[str]):
     analysis = process_chunks(chunks)
