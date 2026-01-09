@@ -1,14 +1,21 @@
 import os
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 import json
 from elasticsearch import Elasticsearch
 from pathlib import Path
 import ollama
 
+'''
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
+'''
+
+load_dotenv()
+
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key)
 
 def embed_and_store(refined_json_dict):
     
@@ -31,8 +38,12 @@ def embed_and_store(refined_json_dict):
         print("Index already exists.")
         
     full_text = refined_json_dict["content"]["full_text"]
-    # embedding = get_embedding(full_text)
-    embedding = ollama.embeddings(model="nomic-embed-text", prompt=full_text)["embedding"]
+
+    # embedding = ollama.embeddings(model="nomic-embed-text", prompt=full_text)["embedding"]
+    embedding = client.models.embed_content(
+        model="text-embedding-004",
+        contents=full_text,
+    ).embeddings
 
     # 3. store in JSON
     refined_json_dict.setdefault("analysis", {})
@@ -48,6 +59,10 @@ def embed_and_store(refined_json_dict):
     print("Document indexed successfully!")
     
 def embed_query(query):
-    query_embedding = ollama.embeddings(model="nomic-embed-text", prompt=query)["embedding"]
+    # query_embedding = ollama.embeddings(model="nomic-embed-text", prompt=query)["embedding"]
+    query_embedding = client.models.embed_content(
+        model="text-embedding-004",
+        contents=query,
+    ).embeddings
     
     return query_embedding

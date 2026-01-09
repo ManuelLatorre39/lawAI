@@ -1,11 +1,10 @@
 from PyPDF2 import PdfReader
 import json
-from langchain.text_splitter import RecursiveCharacterTextSplitter # División de texto
-from google.generativeai import GenerativeModel
+from langchain_text_splitters import RecursiveCharacterTextSplitter # División de texto
+from google import genai
 import re
 from pathlib import Path
 import os
-import google.generativeai as genai
 from dotenv import load_dotenv
 import json
 
@@ -66,7 +65,7 @@ def process_one_chunk(refined_json_dict, response, i):
 def process_chunks(legal_doc_chunks):
     
     api_key = os.getenv("GEMINI_API_KEY")
-    genai.configure(api_key=api_key)
+    # genai.configure(api_key=api_key)
     
     json_schema, initial_instructions, refine_instructions = load_prompts_and_schema()
     
@@ -82,8 +81,13 @@ def process_chunks(legal_doc_chunks):
     
     # opcion gemini
     print("Procesando chunk 1...")
-    model = GenerativeModel("gemini-2.0-flash-lite")
-    response = model.generate_content(first_chunk_prompt)
+    
+    client = genai.Client(api_key=api_key)
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash-lite",
+        contents=first_chunk_prompt
+    )
     
     refined_json_dict = process_one_chunk(refined_json_dict, response, 0)
     
