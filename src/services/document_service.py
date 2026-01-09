@@ -3,6 +3,18 @@ from datetime import datetime, timezone
 from typing import List
 import ollama
 import math
+import os
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+
+api_key = os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    raise RuntimeError("GEMINI_API_KEY is not set")
+
+client = genai.Client(api_key=api_key)
 
 def get_all_documents():
     docs = documents_col.find(
@@ -78,10 +90,19 @@ def search_documents(query: str, top_k: int = 5):
     """
 
     # Embed query
+    '''
     query_embedding = ollama.embeddings(
         model="nomic-embed-text",
         prompt=query
     )["embedding"]
+    '''
+    result = client.models.embed_content(
+        model="text-embedding-004",
+        contents=query,
+    )
+    [embedding_obj] = result.embeddings
+    embeddings = embedding_obj.values
+
 
     # Fetch candidate chunks
     # (simple approach: brute force, OK for MVP)
@@ -95,7 +116,7 @@ def search_documents(query: str, top_k: int = 5):
     # Score chunks
     scored = []
     for chunk in chunks:
-        score = cosine_similarity(query_embedding, chunk["embedding"])
+        score = cosine_similarity(embeddings, chunk["embedding"])
         scored.append({
             "document_id": chunk["document_id"],
             "chunk_id": chunk["_id"],
