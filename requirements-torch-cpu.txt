@@ -1,3 +1,0 @@
-# requirements-torch-cpu.txt
---index-url https://download.pytorch.org/whl/cpu
-torch==2.8.*
