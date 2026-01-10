@@ -110,7 +110,8 @@ def search_documents(query: str, top_k: int = 5):
         "embedding": 1,
         "text": 1,
         "document_id": 1,
-        "chunk_id": 1
+        "chunk_id": 1,
+        "page": 1
     }))
 
     # Score chunks
@@ -121,6 +122,7 @@ def search_documents(query: str, top_k: int = 5):
             "document_id": chunk["document_id"],
             "chunk_id": chunk["_id"],
             "text": chunk["text"],
+            "page": chunk["page"],
             "score": score
         })
 
@@ -146,6 +148,7 @@ def search_documents(query: str, top_k: int = 5):
         results[doc_id]["matches"].append({
             "chunk_id": c["chunk_id"],
             "text": c["text"],
+            "page": c["page"],
             "score": round(c["score"], 4)
         })
 

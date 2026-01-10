@@ -9,10 +9,10 @@ def process_document(document_id: str, file_path: Path):
         update_status(document_id, "PROCESSING")
 
         # 1. Extract text
-        text = chunking.extract_text(file_path)
+        pages = chunking.extract_text_with_pages(file_path)
 
         # 2. Chunk
-        chunks = chunking.chunk_text(text)
+        chunks = chunking.chunk_pages(pages)
 
         # 3. Save chunks + embeddings
         embed_and_save_chunks(document_id, chunks)
