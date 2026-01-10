@@ -41,3 +41,5 @@ tmp/
 # Node.js (por si acaso)
 node_modules/
 .env
+
+storage/
