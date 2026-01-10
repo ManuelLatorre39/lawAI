@@ -6,6 +6,8 @@ import math
 import os
 from dotenv import load_dotenv
 from google import genai
+from fastapi import HTTPException
+from pathlib import Path
 
 load_dotenv()
 
@@ -15,6 +17,8 @@ if not api_key:
     raise RuntimeError("GEMINI_API_KEY is not set")
 
 client = genai.Client(api_key=api_key)
+
+UPLOAD_DIR = Path("storage/uploads")
 
 def get_all_documents():
     docs = documents_col.find(
@@ -153,3 +157,20 @@ def search_documents(query: str, top_k: int = 5):
         })
 
     return list(results.values())
+
+def get_document_file_path(document_id: str) -> Path:
+    doc = documents_col.find_one({"_id": document_id})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    filename = doc.get("filename")
+    if not filename:
+        raise HTTPException(status_code=404, detail="File metadata not found")
+
+    file_path = UPLOAD_DIR / f"{document_id}_{filename}"
+    print(file_path)
+
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="File not found on disk")
+
+    return file_path

@@ -18,7 +18,8 @@ def process_document(document_id: str, file_path: Path):
         embed_and_save_chunks(document_id, chunks)
 
         # 4. LLM analysis (summary, metadata, etc)
-        analysis = generate_and_store_analysis(document_id, chunks)
+        # Comentado temporalmente: discutir
+        # analysis = generate_and_store_analysis(document_id, chunks)
 
         update_status(document_id, "READY")
 

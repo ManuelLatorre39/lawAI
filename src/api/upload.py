@@ -1,11 +1,13 @@
 from fastapi import APIRouter, UploadFile, File, BackgroundTasks, Query
+from fastapi.responses import FileResponse
 import uuid
 import os
+from pathlib import Path
 
-from src.services.document_service import save_document, get_all_documents, search_documents
+from src.services.document_service import save_document, get_all_documents, search_documents, get_document_file_path
 from src.services.processing_service import process_document
 
-UPLOAD_DIR = "storage/uploads"
+UPLOAD_DIR = Path("storage/uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 router = APIRouter(prefix="/documents", tags=["upload"])
@@ -50,3 +52,14 @@ async def upload_file(
         # "chunks": len(chunks),
         "status": "UPLOADED"
     }
+    
+@router.get("/{document_id}/file")
+def get_document_file(document_id: str):
+    file_path = get_document_file_path(document_id)
+
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf"
+        # filename=file_path.name,
+        # media_type="application/octet-stream"
+    )
