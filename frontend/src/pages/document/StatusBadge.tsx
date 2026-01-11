@@ -1,5 +1,5 @@
 import type { DocumentItem } from "@/types/document/documentItem"
-import { Badge } from "lucide-react"
+import { Badge, Check } from "lucide-react"
 
 export function StatusBadge({ status }: { status: DocumentItem["status"] }) {
   const map = {

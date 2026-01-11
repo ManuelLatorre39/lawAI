@@ -1,22 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react"
-import { Document, Page, pdfjs } from "react-pdf"
-import "react-pdf/dist/Page/TextLayer.css"
-import "react-pdf/dist/Page/AnnotationLayer.css"
+import { useMemo, useState } from "react"
 import type { DocumentItem, SearchMatch } from "@/types/document/documentItem"
 import { useQuery } from "@tanstack/react-query"
 import API from "@/services/APIService"
 import { DocumentContextPanel } from "./DocumentContextPanel"
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    "pdfjs-dist/build/pdf.worker.min.mjs",
-    import.meta.url
-).toString()
+import { PdfViewer, type Highlight } from "./PdfViewer"
+import { Skeleton } from "@/components/ui/skeleton"
 
 type Props = {
     doc: DocumentItem
     page?: number
     matches: SearchMatch[]
-    onJump: (page: number) => void
 }
 
 function useDocumentFile(docId: string) {
@@ -36,39 +29,74 @@ export function DocumentPreview({
     doc,
     page = 1,
     matches,
-    onJump,
 }: Props) {
     const { data: fileBlob, isLoading, error } = useDocumentFile(doc.id)
-    const objectUrl = useMemo(() => {
-        if (!fileBlob) return null
-        return URL.createObjectURL(fileBlob)
-    }, [fileBlob])
+    const [activeMatchIndex, setActiveMatchIndex] = useState<number | null>(null)
+    const [scrollToPage, setScrollToPage] = useState<number | null>(page)
+    const [highlightAll, setHighlightAll] = useState(false)
 
-    useEffect(() => {
-        return () => {
-            if (objectUrl) URL.revokeObjectURL(objectUrl)
-            console.log(objectUrl)
-        }
-    }, [objectUrl])
+    // Build highlights array from matches
+    const highlights: Highlight[] = useMemo(() => {
+        return matches.map((m, i) => ({
+            text: m.text,
+            colorIndex: i % 5,
+            isActive: activeMatchIndex === i,
+            page: m.page,
+        }))
+    }, [matches, activeMatchIndex])
 
-    if (isLoading) return <p>Loading…</p>
-    if (error || !objectUrl) return <p>Error loading file</p>
+    // Handle jump from context panel
+    const handleJump = (index: number, page: number, _text: string) => {
+        setActiveMatchIndex(index)
+        // Force scrollToPage change by temporarily setting to null
+        setScrollToPage(null)
+        setTimeout(() => setScrollToPage(page), 10)
+    }
+
+    if (isLoading) {
+        return (
+            <div className="grid grid-cols-2 h-full gap-4 p-4">
+                <Skeleton className="w-full h-full" />
+                <div className="space-y-3">
+                    <Skeleton className="w-full h-24" />
+                    <Skeleton className="w-full h-24" />
+                    <Skeleton className="w-full h-24" />
+                </div>
+            </div>
+        )
+    }
+
+    if (error || !fileBlob) {
+        return (
+            <div className="flex items-center justify-center h-full text-destructive">
+                Error loading file
+            </div>
+        )
+    }
 
     return (
-        <div className="grid grid-cols-2 h-full">
-            <iframe
-                key={page}
-                src={`${objectUrl}#page=${page}`}
-                className="w-full h-full border-0"
-            />
+        <div className="grid grid-cols-2 h-full overflow-hidden">
+            {/* PDF Viewer */}
+            <div className="h-full overflow-hidden border-r">
+                <PdfViewer
+                    file={fileBlob}
+                    highlights={highlights}
+                    scrollToPage={scrollToPage}
+                    highlightAll={highlightAll}
+                    onHighlightAllChange={setHighlightAll}
+                />
+            </div>
 
-            {/* Context */}
-            <div className="overflow-auto p-4 space-y-6">
+            {/* Context Panel */}
+            <div className="h-full overflow-auto p-4 space-y-6">
+                <h3 className="font-semibold text-sm text-muted-foreground">
+                    Search Matches ({matches.length})
+                </h3>
                 <DocumentContextPanel
                     matches={matches}
-                    onJump={onJump}
+                    activeIndex={activeMatchIndex}
+                    onJump={handleJump}
                 />
-                {/* <AISummary docId={doc.id} /> */}
             </div>
         </div>
     )

@@ -7,7 +7,6 @@ import { Progress } from "@/components/ui/progress"
 import {
     Sheet,
     SheetContent,
-    SheetHeader,
     SheetTitle,
 } from "@/components/ui/sheet"
 
@@ -36,7 +35,6 @@ export function DocumentsPage() {
 
     const [previewDoc, setPreviewDoc] = useState<DocumentItem | null>(null)
     const [previewPage, setPreviewPage] = useState<number | null>(null)
-    const [highlightText, setHighlightText] = useState<string | null>(null)
     const [previewMatches, setPreviewMatches] = useState<SearchMatch[]>([])
 
     const visibleDocs = searchResults ?? files
@@ -151,13 +149,15 @@ export function DocumentsPage() {
         <div className="space-y-6">
             {/* Preview panel */}
             <Sheet open={!!previewDoc} onOpenChange={() => setPreviewDoc(null)}>
-                <SheetContent side="right" className="w-[150vh] h-screen">
+                <SheetContent side="right" className="w-[150vh] h-screen p-0 pt-10" aria-describedby={undefined}>
+                    <SheetTitle className="sr-only">
+                        {previewDoc?.filename ?? "Document Preview"}
+                    </SheetTitle>
                     {previewDoc && (
                         <DocumentPreview
                             doc={previewDoc}
-                            page={previewPage ?? -1}
+                            page={previewPage ?? 1}
                             matches={previewMatches}
-                            onJump={(p) => setPreviewPage(p)}
                         />
                     )}
                 </SheetContent>

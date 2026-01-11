@@ -1,4 +1,4 @@
-import { FileText } from "lucide-react"
+import { Check, FileText } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils"
 import type { DocumentItem } from "@/types/document/documentItem"
 
 const statusStyles = {
-    UPLOADED: "bg-gray-200 text-gray-800",
-    PROCESSING: "bg-blue-100 text-blue-800",
-    READY: "bg-green-100 text-green-800",
-    ERROR: "bg-red-100 text-red-800",
+    UPLOADED: "bg-gray-200 text-gray-800 hover:bg-gray-200",
+    PROCESSING: "bg-blue-100 text-blue-800 hover:bg-blue-100",
+    READY: "bg-green-100 text-green-800 hover:bg-green-100",
+    ERROR: "bg-red-100 text-red-800 hover:bg-red-100",
 }
 
 export function DocumentCard({ doc, onPreview }:
@@ -25,20 +25,16 @@ export function DocumentCard({ doc, onPreview }:
             <CardContent className="p-4 space-y-2">
                 <div className="flex items-center gap-3">
                     <FileText className="h-5 w-5 text-muted-foreground" />
-                    <div className="flex-1 truncate">
+                    <div className="flex-1 truncate ">
                         <p className="text-sm font-medium truncate">
                             {doc.filename}
                         </p>
                         <p className="text-xs text-muted-foreground">
                             {((doc?.size ?? 0) / 1024).toFixed(1)} KB
                         </p>
-                        {/* Preview button */}
-                        <button
-                            onClick={() => onPreview(doc)}
-                            className="right-2 top-2 rounded-md bg-background shadow"
-                        >
-                            View
-                        </button>
+                        <Badge className={statusStyles[doc.status] + " mt-2"}>
+                            <Check className="inline-block mr-1 h-4 w-4" /> {doc.status}
+                        </Badge>
                     </div>
                 </div>
 
@@ -57,9 +53,14 @@ export function DocumentCard({ doc, onPreview }:
                     </button>
                 )}
 
-                <Badge className={cn("w-fit", statusStyles[doc.status])}>
-                    {doc.status}
-                </Badge>
+                
+                {/* Preview button */}
+                        <button
+                            onClick={() => onPreview(doc)}
+                            className="w-full p-2 rounded-md bg-primary text-white shadow"
+                        >
+                            Ver
+                        </button>
             </CardContent>
         </Card>
     )
