@@ -151,7 +151,7 @@ export function DocumentsPage() {
         <div className="space-y-6">
             {/* Preview panel */}
             <Sheet open={!!previewDoc} onOpenChange={() => setPreviewDoc(null)}>
-                <SheetContent side="right" className="w-screen max-w-none h-screen">
+                <SheetContent side="right" className="w-[150vh] h-screen">
                     {previewDoc && (
                         <DocumentPreview
                             doc={previewDoc}

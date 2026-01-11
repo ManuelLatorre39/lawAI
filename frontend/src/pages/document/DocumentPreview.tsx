@@ -47,6 +47,7 @@ export function DocumentPreview({
     useEffect(() => {
         return () => {
             if (objectUrl) URL.revokeObjectURL(objectUrl)
+            console.log(objectUrl)
         }
     }, [objectUrl])
 
@@ -56,6 +57,7 @@ export function DocumentPreview({
     return (
         <div className="grid grid-cols-2 h-full">
             <iframe
+                key={page}
                 src={`${objectUrl}#page=${page}`}
                 className="w-full h-full border-0"
             />
