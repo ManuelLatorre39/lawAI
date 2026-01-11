@@ -1,0 +1,31 @@
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - frontend
+      - backend
+
+  backend:
+    build: ./backend
+    # ports: - "8000:8000"  <-- Ya no es obligatorio exponerlo al exterior
+    environment:
+      - MONGO_URI=mongodb://db:27017/law-ai
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    # ports: - "5173:5173"  <-- Ya no es obligatorio exponerlo al exterior
+    volumes:
+      - ./frontend:/app
+
+  db:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

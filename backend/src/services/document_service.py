@@ -1,7 +1,6 @@
 from src.db.mongo import documents_col, analysis_col, chunks_col
 from datetime import datetime, timezone
 from typing import List
-import ollama
 import math
 import os
 from dotenv import load_dotenv
