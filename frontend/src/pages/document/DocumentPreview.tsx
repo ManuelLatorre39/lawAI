@@ -64,11 +64,11 @@ export function DocumentPreview({
 
             {/* Context */}
             <div className="overflow-auto p-4 space-y-6">
-                {/* <AISummary docId={doc.id} /> */}
                 <DocumentContextPanel
                     matches={matches}
                     onJump={onJump}
                 />
+                {/* <AISummary docId={doc.id} /> */}
             </div>
         </div>
     )
