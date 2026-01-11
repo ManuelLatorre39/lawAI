@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from fastapi import FastAPI
 from src.api.upload import router as upload_router
+from src.api.document_chat_ws import router as document_chat_router
 
 root_dir = Path(__file__).resolve().parent
 root_root_dir = Path(__file__).resolve().parent.parent
@@ -19,7 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(upload_router)
+app.include_router(upload_router, prefix="/api")
+app.include_router(document_chat_router, prefix="/api")
 
 '''
 @app.post("/query")
