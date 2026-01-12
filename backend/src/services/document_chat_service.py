@@ -15,6 +15,8 @@ async def chat_with_document(document_id: str, user_message: str):
         for c in chunks
     )
 
+    print(context)
+
     # 3. LLM prompt
     prompt = f"""
         You are a legal assistant answering questions using the provided document.

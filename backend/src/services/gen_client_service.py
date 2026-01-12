@@ -22,4 +22,4 @@ def generate_chat_response(prompt: str):
         contents=prompt
     )
     
-    return response
+    return response.text

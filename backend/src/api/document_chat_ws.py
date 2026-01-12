@@ -16,8 +16,8 @@ async def document_chat_ws(websocket: WebSocket, document_id: str):
                 user_message=user_message
             )
 
-            text = response.text
-            await websocket.send_json({"type": "assistant", "content": text})
+            # print(response.candidates[0].content.parts[0].text)
+            await websocket.send_json({"type": "assistant", "content": response})
 
     except WebSocketDisconnect:
         print(f"Client disconnected from document {document_id}")
