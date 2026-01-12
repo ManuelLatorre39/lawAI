@@ -40,7 +40,7 @@ const LoginPage = () => {
     <div className="flex min-h-screen items-start justify-center pt-20">
       <div className="w-full max-w-md px-4">
         <h1 className="mb-6 text-center text-2xl font-semibold">
-          Welcome back!
+          Welcome back!!!!!
         </h1>
 
         <Card>

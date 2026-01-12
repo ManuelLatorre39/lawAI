@@ -1,0 +1,29 @@
+# Entorno virtual Python (MUY importante - puede ser >3GB)
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Archivos de desarrollo
+*.md
+*.docx
+*.in
+Conceptos básicos.docx
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Otros
+*.log
+.env.local
+
+node_modules
+dist
+build

@@ -1,5 +1,4 @@
 from src.db.mongo import chunks_col
-import ollama
 import os
 from dotenv import load_dotenv
 from google import genai

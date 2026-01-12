@@ -6,16 +6,12 @@ import { useAuth } from './contexts/AuthContext'
 import LoginPage from './pages/auth/LoginPage'
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
 import { DocumentsPage } from './pages/document/DocumentsPage'
+import { FileText } from 'lucide-react'
+
 const navbarData = [
+  { label: 'Documents', icon: FileText, link: '/documents' },
   { label: 'Dashboard', icon: IconLayoutDashboardFilled, link: '/' },
-  {
-    label: 'Catalogue',
-    icon: IconListLetters,
-    initiallyOpened: true,
-    links: [
-      { label: 'Documents', link: '/documents' },
-    ],
-  },
+
 ]
 
 function AppLayout() {

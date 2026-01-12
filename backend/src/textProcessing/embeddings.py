@@ -4,13 +4,6 @@ from dotenv import load_dotenv
 import json
 from elasticsearch import Elasticsearch
 from pathlib import Path
-import ollama
-
-'''
-load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
-'''
 
 load_dotenv()
 

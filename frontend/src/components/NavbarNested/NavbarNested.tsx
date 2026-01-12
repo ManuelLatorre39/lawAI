@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { LegalAILogo } from './Logo';
 import { LinksGroup } from '../NavbarLinksGroup/NavbarLinksGroup';
 import { UserButton } from '../UserButton/UserButton';
+import { ThemeToggle } from '../ThemeToggle/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 
 const mockdata = [
@@ -63,9 +64,12 @@ export function NavbarNested({ data }: NavbarNestedProps) {
           name="Lexa"
           className="h-8 text-foreground"
         />
-        <span className="font-mono text-xs font-semibold text-muted-foreground">
-          v1.0.0
-        </span>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <span className="font-mono text-xs font-semibold text-muted-foreground">
+            v1.0.0
+          </span>
+        </div>
       </div>
 
       {/* Links */}
