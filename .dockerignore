@@ -23,3 +23,7 @@ Conceptos básicos.docx
 # Otros
 *.log
 .env.local
+
+node_modules
+dist
+build
