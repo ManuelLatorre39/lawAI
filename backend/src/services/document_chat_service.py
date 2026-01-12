@@ -22,15 +22,16 @@ async def chat_with_document(document_id: str, user_message: str):
 
     # 3. LLM prompt
     prompt = f"""
-        You are a legal assistant answering questions using the provided document.
+        Eres un asistente legal respondiendo preguntas utilizando el documento provisto
 
-        DOCUMENT CONTEXT:
+        CONTEXTO DE DOCUMENTO:
         {context}
 
-        QUESTION:
+        CONSULTA:
         {user_message}
 
-        Answer clearly and cite page numbers when relevant.
+        Responde claramente y cita números de página si es relevante.
+        Responder en español.
     """
 
     # 4. Call LLM

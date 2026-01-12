@@ -5,6 +5,7 @@ import API from "@/services/APIService"
 import { DocumentContextPanel } from "./DocumentContextPanel"
 import { PdfViewer, type Highlight } from "./PdfViewer"
 import { Skeleton } from "@/components/ui/skeleton"
+import { DocumentChat } from "./DocumentChat"
 
 type Props = {
     doc: DocumentItem
@@ -88,15 +89,18 @@ export function DocumentPreview({
             </div>
 
             {/* Context Panel */}
-            <div className="h-full overflow-auto p-4 space-y-6">
-                <h3 className="font-semibold text-sm text-muted-foreground">
-                    Search Matches ({matches.length})
-                </h3>
-                <DocumentContextPanel
-                    matches={matches}
-                    activeIndex={activeMatchIndex}
-                    onJump={handleJump}
-                />
+            <div className="h-full flex flex-col p-4 gap-4">
+                <div className="flex-1 overflow-auto">
+                    <h3 className="font-semibold text-sm text-muted-foreground mb-2">
+                        Search Matches ({matches.length})
+                    </h3>
+                    <DocumentContextPanel
+                        matches={matches}
+                        activeIndex={activeMatchIndex}
+                        onJump={handleJump}
+                    />
+                </div>
+                <DocumentChat docId={doc.id} />
             </div>
         </div>
     )

@@ -23,3 +23,4 @@ export type SearchResult = {
 export type SearchDocumentItem = DocumentItem & {
   matches: SearchMatch[]
 }
+
