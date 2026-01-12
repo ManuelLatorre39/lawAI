@@ -1,6 +1,11 @@
 from src.services.search_service import search_chunks
 from src.services.gen_client_service import generate_chat_response
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 async def chat_with_document(document_id: str, user_message: str):
     # 1. Retrieve relevant chunks
     chunks = search_chunks(
@@ -11,11 +16,9 @@ async def chat_with_document(document_id: str, user_message: str):
 
     # 2. Build context
     context = "\n\n".join(
-        f"[Page {c['page_number']}] {c['text']}"
+        f"[Page {c['page']}] {c['text']}"
         for c in chunks
     )
-
-    print(context)
 
     # 3. LLM prompt
     prompt = f"""
@@ -38,7 +41,7 @@ async def chat_with_document(document_id: str, user_message: str):
         "sources": [
             {
                 "chunk_id": c["_id"],
-                "page": c.get("page_number"),
+                "page": c.get("page"),
                 "score": c["score"]
             }
             for c in chunks
