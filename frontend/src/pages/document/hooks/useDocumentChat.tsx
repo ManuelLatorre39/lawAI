@@ -7,40 +7,41 @@ export function useDocumentChat(docId: string) {
     const socketRef = useRef<WebSocket | null>(null)
 
     useEffect(() => {
-        const ws = new WebSocket(`ws://localhost:8080/api/documents/${docId}/chat`)
+        const ws = new WebSocket(
+            `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/documents/${docId}/chat`
+        ) // new WebSocket(`ws://localhost:8080/api/documents/${docId}/chat`)
         socketRef.current = ws
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-
-            if (data.type === "token") {
-                setMessages((prev) => {
-                    const last = prev[prev.length - 1]
-                    if (last?.role === "assistant") {
-                        return [
-                            ...prev.slice(0, -1),
-                            { ...last, content: last.content + data.token },
-                        ]
-                    }
-                    return [
-                        ...prev,
-                        {
-                            id: crypto.randomUUID(),
-                            role: "assistant",
-                            content: data.token,
-                        },
-                    ]
-                })
-            }
+        ws.onopen = () => {
+            console.log("WS connected")
         }
 
-        return () => ws.close()
+        ws.onmessage = (event) => {
+            const msg = JSON.parse(event.data)
+            setMessages((prev) => [...prev, msg])
+        }
+
+        ws.onerror = (e) => {
+            console.error("WS error", e)
+        }
+
+        ws.onclose = () => {
+            console.log("WS closed")
+        }
+
+        return () => {
+            ws.close()
+        }
     }, [docId])
 
     function sendMessage(text: string) {
-        socketRef.current?.send(
-            JSON.stringify({ type: "user_message", content: text })
-        )
+        const ws = socketRef.current
+        if (!ws || ws.readyState !== WebSocket.OPEN) return
+
+        ws.send(JSON.stringify({
+            type: "user_message",
+            content: text,
+        }))
 
         setMessages((prev) => [
             ...prev,

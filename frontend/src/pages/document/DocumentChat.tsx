@@ -12,19 +12,22 @@ export function DocumentChat({ docId }: { docId: string }) {
         <div className="flex-1 flex flex-col border-t">
             {/* Messages */}
             <div className="flex-1 overflow-auto space-y-3 p-3">
-                {messages.map((m) => (
-                    <div
-                        key={m.id}
-                        className={cn(
-                            "max-w-[85%] rounded-lg px-3 py-2 text-sm",
-                            m.role === "user"
-                                ? "ml-auto bg-primary text-primary-foreground"
-                                : "bg-muted"
-                        )}
-                    >
-                        {m.content}
-                    </div>
-                ))}
+                {messages.map((m) => {
+                    console.log(m)
+                    return (
+                        <div
+                            key={m.id}
+                            className={cn(
+                                "max-w-[85%] rounded-lg px-3 py-2 text-sm",
+                                m.role === "user"
+                                    ? "ml-auto bg-primary text-primary-foreground"
+                                    : "bg-muted"
+                            )}
+                        >
+                            {m?.content}
+                        </div>
+                    )
+                })}
             </div>
 
             {/* Input */}

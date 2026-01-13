@@ -10,6 +10,12 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
+    host: true,
+    hmr: {
+      protocol: "ws",
+      host: "localhost",
+      port: 8080,
+    },
     proxy: {
       "/api": {
         target: "http://localhost:8080",
