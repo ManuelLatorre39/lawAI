@@ -43,6 +43,7 @@ async def chat_with_document(document_id: str, user_message: str):
             {
                 "chunk_id": c["_id"],
                 "page": c.get("page"),
+                "text": c.get("text"),
                 "score": c["score"]
             }
             for c in chunks
