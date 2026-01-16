@@ -6,7 +6,7 @@ export type User = {
   id: string;
   username: string;
   email: string;
-  role: "admin" | "seller" | "viewer"
+  role: "admin" | "user" | "viewer"
 };
 
 type AuthContextValue = {
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (storedToken) {
       setToken(storedToken)
       // Optionally verify token with backend
-      // verifyToken(storedToken)
+      verifyToken(storedToken)
     } else {
       setIsLoading(false)
     }
@@ -39,10 +39,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const verifyToken = async (token: string) => {
     try {
-      const response = await API.get('/auth/me', {
+      const response = await API.get('/users/me', {
         headers: { Authorization: `Bearer ${token}` }
       })
-      setUser(response.data.user)
+      console.log(response)
+      // setUser(response.data.user)
     } catch (error) {
       // Token invalid, clear it
       localStorage.removeItem('token')
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (password: string, username: string): Promise<User> => {
     try {
-      const response = await API.post('/auth/login', { username, password })
+      const response = await API.post('/auth/login', { dni: username, password })
       const { access_token } = response.data
 
       if (!access_token) {
