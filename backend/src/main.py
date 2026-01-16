@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pathlib import Path
 from fastapi import FastAPI
-from backend.src.api.documents import router as document_router
+from src.api.documents import router as document_router
 from src.api.document_chat_ws import router as document_chat_router
 from src.api.auth import router as auth_router
 from src.api.users import router as users_router
