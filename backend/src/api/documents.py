@@ -4,7 +4,7 @@ import uuid
 import os
 from pathlib import Path
 
-from src.services.document_service import save_document, get_all_documents, search_documents, get_document_file_path
+from src.services.document_service import save_document, get_all_documents, search_documents, get_document_file_path, create_conversation_service
 from src.services.processing_service import process_document
 
 UPLOAD_DIR = Path("storage/uploads")
@@ -63,3 +63,10 @@ def get_document_file(document_id: str):
         # filename=file_path.name,
         # media_type="application/octet-stream"
     )
+    
+@router.post("/{document_id}/conversation")
+def create_conversation(document_id: str, dni: str):
+    response = create_conversation_service(document_id, dni)
+    return {
+        "conversation_id": str(response)
+    }
