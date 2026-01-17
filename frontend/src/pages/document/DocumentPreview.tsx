@@ -2,7 +2,6 @@ import { useMemo, useState } from "react"
 import type { DocumentItem, SearchMatch } from "@/types/document/documentItem"
 import { useQuery } from "@tanstack/react-query"
 import API from "@/services/APIService"
-import { DocumentContextPanel } from "./DocumentContextPanel"
 import { PdfViewer, type Highlight } from "./PdfViewer"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -75,29 +74,18 @@ export function DocumentPreview({
     }
 
     return (
-        <div className="grid grid-cols-2 h-full overflow-hidden">
-            {/* PDF Viewer */}
-            <div className="h-full overflow-hidden border-r">
-                <PdfViewer
-                    file={fileBlob}
-                    highlights={highlights}
-                    scrollToPage={scrollToPage}
-                    highlightAll={highlightAll}
-                    onHighlightAllChange={setHighlightAll}
-                />
-            </div>
-
-            {/* Context Panel */}
-            <div className="h-full overflow-auto p-4 space-y-6">
-                <h3 className="font-semibold text-sm text-muted-foreground">
-                    Search Matches ({matches.length})
-                </h3>
-                <DocumentContextPanel
-                    matches={matches}
-                    activeIndex={activeMatchIndex}
-                    onJump={handleJump}
-                />
-            </div>
+        <div className="h-full overflow-hidden">
+            {/* PDF Viewer with integrated sidebar */}
+            <PdfViewer
+                file={fileBlob}
+                highlights={highlights}
+                scrollToPage={scrollToPage}
+                highlightAll={highlightAll}
+                onHighlightAllChange={setHighlightAll}
+                matches={matches}
+                activeMatchIndex={activeMatchIndex}
+                onMatchJump={handleJump}
+            />
         </div>
     )
 }

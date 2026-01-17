@@ -149,7 +149,7 @@ export function DocumentsPage() {
         <div className="space-y-6">
             {/* Preview panel */}
             <Sheet open={!!previewDoc} onOpenChange={() => setPreviewDoc(null)}>
-                <SheetContent side="right" className="w-[150vh] h-screen p-0 pt-10" aria-describedby={undefined}>
+                <SheetContent side="right" className="w-full h-screen p-0" aria-describedby={undefined}>
                     <SheetTitle className="sr-only">
                         {previewDoc?.filename ?? "Document Preview"}
                     </SheetTitle>

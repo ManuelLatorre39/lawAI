@@ -1,3 +1,4 @@
+import { useState } from "react"
 import type { SearchMatch } from "@/types/document/documentItem"
 import { cn } from "@/lib/utils"
 
@@ -17,6 +18,8 @@ type Props = {
 }
 
 export function DocumentContextPanel({ matches, activeIndex, onJump }: Props) {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+
   if (!matches.length) {
     return (
       <p className="text-sm text-muted-foreground">
@@ -25,12 +28,25 @@ export function DocumentContextPanel({ matches, activeIndex, onJump }: Props) {
     )
   }
 
+  const handleClick = (index: number, page: number, text: string, e: React.MouseEvent) => {
+    // If clicking on the same panel, toggle expansion
+    if (expandedIndex === index) {
+      setExpandedIndex(null)
+    } else {
+      setExpandedIndex(index)
+    }
+    
+    // Always trigger navigation
+    onJump(index, page, text)
+  }
+
   return (
     <div className="space-y-3">
       {matches.map((m, i) => {
         const colorIndex = i % 5
         const color = MATCH_COLORS[colorIndex]
         const isActive = activeIndex === i
+        const isExpanded = expandedIndex === i
 
         return (
           <button
@@ -48,13 +64,16 @@ export function DocumentContextPanel({ matches, activeIndex, onJump }: Props) {
                 boxShadow: `0 0 0 2px ${color}`,
               }),
             }}
-            onClick={() => onJump(i, m.page, m.text)}
+            onClick={(e) => handleClick(i, m.page, m.text, e)}
           >
             <div className="text-xs text-muted-foreground mb-1">
-              Page {m.page} · score {m.score.toFixed(2)}
+              Pagina {m.page} · puntuación {(m.score * 100).toFixed(2)}%
             </div>
 
-            <p className="text-sm leading-snug line-clamp-3">
+            <p className={cn(
+              "text-sm leading-snug transition-all",
+              isExpanded ? "" : "line-clamp-3"
+            )}>
               {m.text}
             </p>
           </button>

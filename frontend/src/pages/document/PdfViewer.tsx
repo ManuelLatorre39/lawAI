@@ -5,7 +5,10 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, PanelLeftClose, PanelLeft } from "lucide-react"
+import { DocumentContextPanel } from "./DocumentContextPanel"
+import type { SearchMatch } from "@/types/document/documentItem"
+import { cn } from "@/lib/utils"
 import "react-pdf/dist/Page/TextLayer.css"
 import "react-pdf/dist/Page/AnnotationLayer.css"
 
@@ -25,6 +28,9 @@ type Props = {
   scrollToPage: number | null
   highlightAll?: boolean
   onHighlightAllChange?: (value: boolean) => void
+  matches?: SearchMatch[]
+  activeMatchIndex?: number | null
+  onMatchJump?: (index: number, page: number) => void
 }
 
 export function PdfViewer({
@@ -33,11 +39,16 @@ export function PdfViewer({
   scrollToPage,
   highlightAll = false,
   onHighlightAllChange,
+  matches = [],
+  activeMatchIndex = null,
+  onMatchJump,
 }: Props) {
   const [numPages, setNumPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInput, setPageInput] = useState("")
   const [containerWidth, setContainerWidth] = useState(600)
+  const [scale, setScale] = useState(1.0)
+  const [sidebarOpen, setSidebarOpen] = useState(matches.length > 0)
   const containerRef = useRef<HTMLDivElement>(null)
   const pageRef = useRef<HTMLDivElement>(null)
 
@@ -56,6 +67,20 @@ export function PdfViewer({
     observer.observe(container)
     return () => observer.disconnect()
   }, [])
+
+  // Open sidebar when matches are available
+  useEffect(() => {
+    if (matches.length > 0) {
+      setSidebarOpen(true)
+    }
+  }, [matches.length])
+
+  // Handle match jump
+  const handleMatchJump = (index: number, page: number, _text: string) => {
+    if (onMatchJump) {
+      onMatchJump(index, page)
+    }
+  }
 
   const onDocumentLoadSuccess = useCallback(
     ({ numPages }: { numPages: number }) => {
@@ -183,6 +208,19 @@ export function PdfViewer({
     }
   }
 
+  // Zoom handlers
+  const handleZoomIn = () => {
+    setScale((prev) => Math.min(prev + 0.25, 3.0))
+  }
+
+  const handleZoomOut = () => {
+    setScale((prev) => Math.max(prev - 0.25, 0.5))
+  }
+
+  const handleResetZoom = () => {
+    setScale(1.0)
+  }
+
   if (!memoizedFile) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -193,6 +231,7 @@ export function PdfViewer({
 
   return (
     <Document
+      className="h-full"
       file={memoizedFile}
       onLoadSuccess={onDocumentLoadSuccess}
       loading={
@@ -206,11 +245,55 @@ export function PdfViewer({
         </div>
       }
     >
-      <div className="h-full flex flex-col">
-        {/* Header with navigation and toggle */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b px-4 py-2 flex items-center justify-between gap-4">
-          {/* Page navigation */}
-          <div className="flex items-center gap-2">
+      <div className="h-full flex">
+        {/* Sidebar */}
+        <div
+          className={cn(
+            "border-r bg-background transition-all duration-300 overflow-hidden flex-shrink-0",
+            sidebarOpen ? "w-90" : "w-0"
+          )}
+        >
+          {sidebarOpen && (
+            <div className="h-full overflow-auto p-4 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-sm text-muted-foreground">
+                  Párrafos similares ({matches.length})
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <PanelLeftClose className="h-4 w-4" />
+                </Button>
+              </div>
+              <DocumentContextPanel
+                matches={matches}
+                activeIndex={activeMatchIndex}
+                onJump={handleMatchJump}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Main PDF viewer */}
+        <div className="flex-1 flex flex-col min-w-0 min-h-0">
+          {/* Header with navigation and toggle */}
+          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b px-4 py-2 flex items-center justify-between gap-4">
+            {/* Page navigation */}
+            <div className="flex items-center gap-2 ">
+              {/* Sidebar toggle */}
+              {matches.length > 0 && !sidebarOpen && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setSidebarOpen(true)}
+                  title="Mostrar párrafos"
+                >
+                  <PanelLeft className="h-4 w-4" />
+                </Button>
+              )}
             <Button
               variant="outline"
               size="icon"
@@ -230,26 +313,59 @@ export function PdfViewer({
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
-            <div className="flex items-center gap-1 ml-4">
+            <div className="flex items-center gap-1 ml-auto">
               <p>Pag: </p>
-            <form onSubmit={handlePageInputSubmit} className="flex items-center gap-1">
-              <Input
-                type="number"
-                min="1"
-                max={numPages}
-                value={pageInput}
-                onChange={(e) => setPageInput(e.target.value)}
-                placeholder={`${currentPage}`}
-                className="w-20 h-8 text-sm"
-              />
-            </form>
+              <form onSubmit={handlePageInputSubmit} className="flex items-center gap-1">
+                <Input
+                  type="number"
+                  min="1"
+                  max={numPages}
+                  value={pageInput}
+                  onChange={(e) => setPageInput(e.target.value)}
+                  placeholder={`${currentPage}`}
+                  className="w-20 h-8 text-sm"
+                />
+              </form>
             
             </div>
           </div>
 
+          {/* Zoom controls */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleZoomOut}
+              disabled={scale <= 0.5}
+              title="Zoom out"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <span className="text-sm min-w-[60px] text-center">
+              {Math.round(scale * 100)}%
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleZoomIn}
+              disabled={scale >= 3.0}
+              title="Zoom in"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleResetZoom}
+              title="Resetear zoom"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+          </div>
+
           {/* Highlight toggle */}
           {onHighlightAllChange && highlights.length > 0 && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mr-10">
               <Switch
                 id="highlight-all"
                 checked={highlightAll}
@@ -260,19 +376,20 @@ export function PdfViewer({
               </Label>
             </div>
           )}
-        </div>
+          </div>
 
-        {/* PDF page container */}
-        <div ref={containerRef} className="flex-1 overflow-auto px-4 py-4">
-          <div ref={pageRef} className="flex justify-center">
-            <Page
-              pageNumber={currentPage}
-              width={containerWidth}
-              loading={<Skeleton className="w-full h-[800px]" />}
-              onRenderSuccess={handlePageRenderSuccess}
-              renderAnnotationLayer={false}
-              renderTextLayer={true}
-            />
+          {/* PDF page container */}
+          <div ref={containerRef} className="flex-1 min-h-0 overflow-auto px-4 py-4">
+            <div ref={pageRef} className="inline-flex justify-center min-w-full">
+              <Page
+                pageNumber={currentPage}
+                width={containerWidth * scale}
+                loading={<Skeleton className="w-full " />}
+                onRenderSuccess={handlePageRenderSuccess}
+                renderAnnotationLayer={false}
+                renderTextLayer={true}
+              />
+            </div>
           </div>
         </div>
       </div>
