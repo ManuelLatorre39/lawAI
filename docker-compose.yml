@@ -26,8 +26,9 @@ services:
 
   db:
     image: mongo:latest
+    command: mongod --wiredTigerCacheSizeGB 0.5 --bind_ip_all
     ports:
-      - "27017:27017"  # <--- Esto mapea el puerto interno al externo
+      - "27018:27017"  
     volumes:
       - mongo_data:/data/db
 

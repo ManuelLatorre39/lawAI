@@ -2,7 +2,6 @@ import { useMemo, useState } from "react"
 import type { DocumentItem, SearchMatch } from "@/types/document/documentItem"
 import { useQuery } from "@tanstack/react-query"
 import API from "@/services/APIService"
-import { DocumentContextPanel } from "./DocumentContextPanel"
 import { PdfViewer, type Highlight } from "./PdfViewer"
 import { Skeleton } from "@/components/ui/skeleton"
 import { DocumentChat } from "./DocumentChat"
@@ -76,32 +75,18 @@ export function DocumentPreview({
     }
 
     return (
-        <div className="grid grid-cols-2 h-full overflow-hidden">
-            {/* PDF Viewer */}
-            <div className="h-full overflow-hidden border-r">
-                <PdfViewer
-                    file={fileBlob}
-                    highlights={highlights}
-                    scrollToPage={scrollToPage}
-                    highlightAll={highlightAll}
-                    onHighlightAllChange={setHighlightAll}
-                />
-            </div>
-
-            {/* Context Panel */}
-            <div className="h-full flex flex-col p-4 gap-4">
-                <div className="flex-1 overflow-auto">
-                    <h3 className="font-semibold text-sm text-muted-foreground mb-2">
-                        Search Matches ({matches.length})
-                    </h3>
-                    <DocumentContextPanel
-                        matches={matches}
-                        activeIndex={activeMatchIndex}
-                        onJump={handleJump}
-                    />
-                </div>
-                <DocumentChat docId={doc.id} />
-            </div>
+        <div className="h-full overflow-hidden">
+            {/* PDF Viewer with integrated sidebar */}
+            <PdfViewer
+                file={fileBlob}
+                highlights={highlights}
+                scrollToPage={scrollToPage}
+                highlightAll={highlightAll}
+                onHighlightAllChange={setHighlightAll}
+                matches={matches}
+                activeMatchIndex={activeMatchIndex}
+                onMatchJump={handleJump}
+            />
         </div>
     )
 }
