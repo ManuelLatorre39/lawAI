@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import type { DocumentItem, SearchMatch } from "@/types/document/documentItem"
 import { useQuery } from "@tanstack/react-query"
 import API from "@/services/APIService"
-import { DocumentContextPanel } from "./DocumentContextPanel"
 import { PdfViewer, type Highlight } from "./PdfViewer"
 import { Skeleton } from "@/components/ui/skeleton"
 import { DocumentChat } from "./DocumentChat"
+import { useContextSelection } from "./hooks/useContextSelection"
 
 type Props = {
     doc: DocumentItem
@@ -36,6 +36,16 @@ export function DocumentPreview({
     const [scrollToPage, setScrollToPage] = useState<number | null>(page)
     const [highlightAll, setHighlightAll] = useState(false)
 
+    // Selection modes
+    const [textSelectionMode, setTextSelectionMode] = useState(false)
+    const [chunkSelectionMode, setChunkSelectionMode] = useState(false)
+
+    // Chat sidebar state
+    const [chatOpen, setChatOpen] = useState(false)
+
+    // Context selection state
+    const contextSelection = useContextSelection(doc.id)
+
     // Build highlights array from matches
     const highlights: Highlight[] = useMemo(() => {
         return matches.map((m, i) => ({
@@ -53,6 +63,12 @@ export function DocumentPreview({
         setScrollToPage(null)
         setTimeout(() => setScrollToPage(page), 10)
     }
+
+    // Get color index for a chunk based on its position in matches array
+    const getChunkColorIndex = useCallback((chunkId: string) => {
+        const index = matches.findIndex(m => m.chunk_id === chunkId)
+        return index >= 0 ? index % 5 : 0
+    }, [matches])
 
     if (isLoading) {
         return (
@@ -76,32 +92,45 @@ export function DocumentPreview({
     }
 
     return (
-        <div className="grid grid-cols-2 h-full overflow-hidden">
-            {/* PDF Viewer */}
-            <div className="h-full overflow-hidden border-r">
-                <PdfViewer
-                    file={fileBlob}
-                    highlights={highlights}
-                    scrollToPage={scrollToPage}
-                    highlightAll={highlightAll}
-                    onHighlightAllChange={setHighlightAll}
-                />
-            </div>
-
-            {/* Context Panel */}
-            <div className="h-full flex flex-col p-4 gap-4">
-                <div className="flex-1 overflow-auto">
-                    <h3 className="font-semibold text-sm text-muted-foreground mb-2">
-                        Search Matches ({matches.length})
-                    </h3>
-                    <DocumentContextPanel
-                        matches={matches}
-                        activeIndex={activeMatchIndex}
-                        onJump={handleJump}
+        <div className="h-full overflow-hidden">
+            {/* PDF Viewer with integrated sidebars */}
+            <PdfViewer
+                file={fileBlob}
+                highlights={highlights}
+                scrollToPage={scrollToPage}
+                highlightAll={highlightAll}
+                onHighlightAllChange={setHighlightAll}
+                matches={matches}
+                activeMatchIndex={activeMatchIndex}
+                onMatchJump={handleJump}
+                // Text selection
+                textSelectionMode={textSelectionMode}
+                onTextSelectionModeChange={setTextSelectionMode}
+                onTextSelect={contextSelection.addHighlightedText}
+                // Chunk selection
+                chunkSelectionMode={chunkSelectionMode}
+                onChunkSelectionModeChange={setChunkSelectionMode}
+                isChunkSelected={contextSelection.isChunkSelected}
+                getChunkSelectionOrder={contextSelection.getChunkSelectionOrder}
+                onToggleChunk={contextSelection.toggleChunk}
+                // User highlights (notes on PDF)
+                userHighlights={contextSelection.highlightedTexts}
+                onRemoveUserHighlight={contextSelection.removeHighlightedText}
+                // Chat sidebar
+                chatOpen={chatOpen}
+                onChatOpenChange={setChatOpen}
+                chatSidebar={
+                    <DocumentChat
+                        docId={doc.id}
+                        contextSelection={contextSelection}
+                        getChunkColorIndex={getChunkColorIndex}
+                        chunkSelectionMode={chunkSelectionMode}
+                        onChunkSelectionModeChange={setChunkSelectionMode}
+                        textSelectionMode={textSelectionMode}
+                        onTextSelectionModeChange={setTextSelectionMode}
                     />
-                </div>
-                <DocumentChat docId={doc.id} />
-            </div>
+                }
+            />
         </div>
     )
 }

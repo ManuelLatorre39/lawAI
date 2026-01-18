@@ -5,7 +5,12 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, PanelLeftClose, PanelLeft, Highlighter, MessageSquare, PanelRightClose } from "lucide-react"
+import { DocumentContextPanel } from "./DocumentContextPanel"
+import { UserHighlightOverlay } from "./UserHighlightOverlay"
+import type { SearchMatch } from "@/types/document/documentItem"
+import type { HighlightedText } from "./hooks/useContextSelection"
+import { cn } from "@/lib/utils"
 import "react-pdf/dist/Page/TextLayer.css"
 import "react-pdf/dist/Page/AnnotationLayer.css"
 
@@ -25,6 +30,26 @@ type Props = {
   scrollToPage: number | null
   highlightAll?: boolean
   onHighlightAllChange?: (value: boolean) => void
+  matches?: SearchMatch[]
+  activeMatchIndex?: number | null
+  onMatchJump?: (index: number, page: number, text: string) => void
+  // Text selection props
+  textSelectionMode?: boolean
+  onTextSelectionModeChange?: (value: boolean) => void
+  onTextSelect?: (text: string, page: number) => void
+  // Chunk selection props
+  chunkSelectionMode?: boolean
+  onChunkSelectionModeChange?: (value: boolean) => void
+  isChunkSelected?: (chunkId: string) => boolean
+  getChunkSelectionOrder?: (chunkId: string) => number | null
+  onToggleChunk?: (chunk: SearchMatch) => void
+  // User highlights (notes)
+  userHighlights?: HighlightedText[]
+  onRemoveUserHighlight?: (id: string) => void
+  // Chat sidebar
+  chatSidebar?: React.ReactNode
+  chatOpen?: boolean
+  onChatOpenChange?: (open: boolean) => void
 }
 
 export function PdfViewer({
@@ -33,11 +58,32 @@ export function PdfViewer({
   scrollToPage,
   highlightAll = false,
   onHighlightAllChange,
+  matches = [],
+  activeMatchIndex = null,
+  onMatchJump,
+  // Text selection
+  textSelectionMode = false,
+  onTextSelectionModeChange,
+  onTextSelect,
+  // Chunk selection
+  chunkSelectionMode = false,
+  isChunkSelected,
+  getChunkSelectionOrder,
+  onToggleChunk,
+  // User highlights
+  userHighlights = [],
+  onRemoveUserHighlight,
+  // Chat sidebar
+  chatSidebar,
+  chatOpen = false,
+  onChatOpenChange,
 }: Props) {
   const [numPages, setNumPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageInput, setPageInput] = useState("")
   const [containerWidth, setContainerWidth] = useState(600)
+  const [scale, setScale] = useState(1.0)
+  const [sidebarOpen, setSidebarOpen] = useState(matches.length > 0)
   const containerRef = useRef<HTMLDivElement>(null)
   const pageRef = useRef<HTMLDivElement>(null)
 
@@ -56,6 +102,20 @@ export function PdfViewer({
     observer.observe(container)
     return () => observer.disconnect()
   }, [])
+
+  // Open sidebar when matches are available
+  useEffect(() => {
+    if (matches.length > 0) {
+      setSidebarOpen(true)
+    }
+  }, [matches.length])
+
+  // Handle match jump
+  const handleMatchJump = (index: number, page: number, text: string) => {
+    if (onMatchJump) {
+      onMatchJump(index, page, text)
+    }
+  }
 
   const onDocumentLoadSuccess = useCallback(
     ({ numPages }: { numPages: number }) => {
@@ -183,6 +243,36 @@ export function PdfViewer({
     }
   }
 
+  // Zoom handlers
+  const handleZoomIn = () => {
+    setScale((prev) => Math.min(prev + 0.25, 3.0))
+  }
+
+  const handleZoomOut = () => {
+    setScale((prev) => Math.max(prev - 0.25, 0.5))
+  }
+
+  const handleResetZoom = () => {
+    setScale(1.0)
+  }
+
+  // Handle text selection from PDF
+  const handleTextSelection = useCallback(() => {
+    if (!textSelectionMode || !onTextSelect) return
+
+    const selection = window.getSelection()
+    if (!selection || selection.isCollapsed) return
+
+    const selectedText = selection.toString().trim()
+    if (selectedText.length === 0) return
+
+    // Add the selected text
+    onTextSelect(selectedText, currentPage)
+
+    // Clear selection after capturing
+    selection.removeAllRanges()
+  }, [textSelectionMode, onTextSelect, currentPage])
+
   if (!memoizedFile) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -193,6 +283,7 @@ export function PdfViewer({
 
   return (
     <Document
+      className="h-full"
       file={memoizedFile}
       onLoadSuccess={onDocumentLoadSuccess}
       loading={
@@ -206,11 +297,74 @@ export function PdfViewer({
         </div>
       }
     >
-      <div className="h-full flex flex-col">
-        {/* Header with navigation and toggle */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b px-4 py-2 flex items-center justify-between gap-4">
-          {/* Page navigation */}
-          <div className="flex items-center gap-2">
+      <div className="h-full flex">
+        {/* Sidebar */}
+        <div
+          className={cn(
+            "border-r bg-background transition-all duration-300 overflow-hidden shrink-0",
+            sidebarOpen ? "w-90" : "w-0"
+          )}
+        >
+          {sidebarOpen && (
+            <div className="h-full overflow-auto p-4 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="grid grid-cols-1 gap-2">
+                <h3 className="font-semibold text-sm text-muted-foreground">
+                  Párrafos similares ({matches.length})
+                </h3>
+                {/* Highlight toggle */}
+                {onHighlightAllChange && highlights.length > 0 && (
+                  <div className="flex items-center gap-2 mr-10">
+                    <Switch
+                      id="highlight-all"
+                      checked={highlightAll}
+                      onCheckedChange={onHighlightAllChange}
+                    />
+                    <Label htmlFor="highlight-all" className="text-sm cursor-pointer">
+                      Resaltar todo
+                    </Label>
+                  </div>
+                )}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <PanelLeftClose className="h-4 w-4" />
+                </Button>
+              </div>
+              <DocumentContextPanel
+                matches={matches}
+                activeIndex={activeMatchIndex}
+                onJump={handleMatchJump}
+                selectionMode={chunkSelectionMode}
+                isChunkSelected={isChunkSelected}
+                getChunkSelectionOrder={getChunkSelectionOrder}
+                onToggleChunk={onToggleChunk}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Main PDF viewer */}
+        <div className="flex-1 flex flex-col min-w-0 min-h-0">
+          {/* Header with navigation and toggle */}
+          <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b px-4 py-2 flex items-center justify-between gap-4">
+            {/* Page navigation */}
+            <div className="flex items-center gap-2 ">
+              {/* Sidebar toggle */}
+              {matches.length > 0 && !sidebarOpen && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setSidebarOpen(true)}
+                  title="Mostrar párrafos"
+                >
+                  <PanelLeft className="h-4 w-4" />
+                </Button>
+              )}
             <Button
               variant="outline"
               size="icon"
@@ -230,50 +384,130 @@ export function PdfViewer({
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
-            <div className="flex items-center gap-1 ml-4">
+            <div className="flex items-center gap-1 ml-auto">
               <p>Pag: </p>
-            <form onSubmit={handlePageInputSubmit} className="flex items-center gap-1">
-              <Input
-                type="number"
-                min="1"
-                max={numPages}
-                value={pageInput}
-                onChange={(e) => setPageInput(e.target.value)}
-                placeholder={`${currentPage}`}
-                className="w-20 h-8 text-sm"
-              />
-            </form>
+              <form onSubmit={handlePageInputSubmit} className="flex items-center gap-1">
+                <Input
+                  type="number"
+                  min="1"
+                  max={numPages}
+                  value={pageInput}
+                  onChange={(e) => setPageInput(e.target.value)}
+                  placeholder={`${currentPage}`}
+                  className="w-20 h-8 text-sm"
+                />
+              </form>
             
             </div>
           </div>
 
-          {/* Highlight toggle */}
-          {onHighlightAllChange && highlights.length > 0 && (
-            <div className="flex items-center gap-2">
-              <Switch
-                id="highlight-all"
-                checked={highlightAll}
-                onCheckedChange={onHighlightAllChange}
-              />
-              <Label htmlFor="highlight-all" className="text-sm cursor-pointer">
-                Resaltar todo
-              </Label>
-            </div>
+          {/* Zoom controls */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleZoomOut}
+              disabled={scale <= 0.5}
+              title="Zoom out"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <span className="text-sm min-w-[60px] text-center">
+              {Math.round(scale * 100)}%
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleZoomIn}
+              disabled={scale >= 3.0}
+              title="Zoom in"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleResetZoom}
+              title="Resetear zoom"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {/* Chat toggle button */}
+          {onChatOpenChange && !chatOpen && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onChatOpenChange(true)}
+              className="gap-2 mr-10"
+              title="Abrir chat"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Chat
+            </Button>
           )}
+          </div>
+
+          {/* PDF page container */}
+          <div
+            ref={containerRef}
+            className={cn(
+              "flex-1 min-h-0 overflow-auto px-4 py-4 relative",
+              textSelectionMode && "cursor-text ring-2 ring-primary/30 ring-inset"
+            )}
+            onMouseUp={handleTextSelection}
+          >
+            {/* User highlight notes overlay */}
+            {onRemoveUserHighlight && userHighlights.length > 0 && (
+              <UserHighlightOverlay
+                highlights={userHighlights}
+                currentPage={currentPage}
+                onRemove={onRemoveUserHighlight}
+              />
+            )}
+
+            <div ref={pageRef} className="inline-flex justify-center min-w-full">
+              <Page
+                pageNumber={currentPage}
+                width={containerWidth * scale}
+                loading={<Skeleton className="w-full " />}
+                onRenderSuccess={handlePageRenderSuccess}
+                renderAnnotationLayer={false}
+                renderTextLayer={true}
+              />
+            </div>
+          </div>
         </div>
 
-        {/* PDF page container */}
-        <div ref={containerRef} className="flex-1 overflow-auto px-4 py-4">
-          <div ref={pageRef} className="flex justify-center">
-            <Page
-              pageNumber={currentPage}
-              width={containerWidth}
-              loading={<Skeleton className="w-full h-[800px]" />}
-              onRenderSuccess={handlePageRenderSuccess}
-              renderAnnotationLayer={false}
-              renderTextLayer={true}
-            />
-          </div>
+        {/* Chat Sidebar (Right) */}
+        <div
+          className={cn(
+            "border-l bg-background transition-all duration-300 overflow-hidden shrink-0 flex flex-col",
+            chatOpen ? "w-110" : "w-0"
+          )}
+        >
+          {chatOpen && (
+            <div className="h-full flex flex-col">
+              {/* Chat header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => onChatOpenChange?.(false)}
+                >
+                  <PanelRightClose className="h-4 w-4" />
+                </Button>
+                <h3 className="font-semibold text-sm mr-10">Chat del documento</h3>
+                
+              </div>
+              {/* Chat content */}
+              <div className="flex-1 min-h-0 overflow-hidden">
+                {chatSidebar}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Document>

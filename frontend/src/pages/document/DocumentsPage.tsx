@@ -43,6 +43,7 @@ export function DocumentsPage() {
     useEffect(() => {
         API.get("/documents").then((res) => {
             setFiles(res.data)
+            console.log("Loaded documents:", res.data)
         })
     }, [])
 
@@ -59,7 +60,7 @@ export function DocumentsPage() {
         })
 
         const results: SearchResult[] = res.data.results
-
+        console.log("Search results:", results)
         const enrichedDocs = results
             .map((result) => {
                 const doc = files.find((f) => f.id === result.document_id)
@@ -149,7 +150,7 @@ export function DocumentsPage() {
         <div className="space-y-6">
             {/* Preview panel */}
             <Sheet open={!!previewDoc} onOpenChange={() => setPreviewDoc(null)}>
-                <SheetContent side="right" className="w-[150vh] h-screen p-0 pt-10" aria-describedby={undefined}>
+                <SheetContent side="right" className="w-full h-screen p-0" aria-describedby={undefined}>
                     <SheetTitle className="sr-only">
                         {previewDoc?.filename ?? "Document Preview"}
                     </SheetTitle>
