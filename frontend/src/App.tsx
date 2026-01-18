@@ -10,7 +10,7 @@ import { FileText } from 'lucide-react'
 
 const navbarData = [
   { label: 'Documents', icon: FileText, link: '/documents' },
-  { label: 'Dashboard', icon: IconLayoutDashboardFilled, link: '/' },
+  //{ label: 'Dashboard', icon: IconLayoutDashboardFilled, link: '/' },
 
 ]
 

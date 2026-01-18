@@ -1,17 +1,24 @@
 import type { ChatMessage } from "@/types/chat/chat"
+import type { SearchMatch } from "@/types/document/documentItem"
+import type { HighlightedText } from "./useContextSelection"
 import { useEffect, useRef, useState } from "react"
 
+export type ChatContext = {
+    chunks: SearchMatch[]
+    highlightedTexts: HighlightedText[]
+}
 
 export function useDocumentChat(docId: string) {
     const [messages, setMessages] = useState<ChatMessage[]>([])
+    const [sessionId] = useState(() => crypto.randomUUID())
     const socketRef = useRef<WebSocket | null>(null)
 
     useEffect(() => {
+        //usamos variables de entorno de vite
         const ws = new WebSocket(
-            `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host}/api/documents/${docId}/chat`
+            `${import.meta.env.VITE_BACKEND_URL_WS}/documents/${docId}/chat`
         ) // new WebSocket(`ws://localhost:8080/api/documents/${docId}/chat`)
         socketRef.current = ws
-
         ws.onopen = () => {
             console.log("WS connected")
         }
@@ -34,20 +41,43 @@ export function useDocumentChat(docId: string) {
         }
     }, [docId])
 
-    function sendMessage(text: string) {
+    function sendMessage(text: string, context?: ChatContext) {
         const ws = socketRef.current
         if (!ws || ws.readyState !== WebSocket.OPEN) return
 
-        ws.send(JSON.stringify({
+        const messageId = crypto.randomUUID()
+
+        // Build message following protocol.md structure
+        const payload = {
+            message_id: messageId,
+            session_id: sessionId,
+            timestamp: Date.now(),
             type: "user_message",
-            content: text,
-        }))
+            prompt: text,
+            context: context ? {
+                document_ids: [docId],
+                chunks_ids: context.chunks.map(c => c.chunk_id),
+                highlighted_texts: context.highlightedTexts.map(ht => ({
+                    text: ht.text,
+                    document_id: ht.documentId,
+                    position: { start: 0, end: ht.text.length },
+                    page: ht.page,
+                })),
+            } : {
+                document_ids: [docId],
+                chunks_ids: [],
+                highlighted_texts: [],
+            },
+        }
+
+        console.log("Sending message payload:", payload)
+        ws.send(JSON.stringify(payload))
 
         setMessages((prev) => [
             ...prev,
-            { id: crypto.randomUUID(), role: "user", content: text },
+            { id: messageId, role: "user", content: text },
         ])
     }
 
-    return { messages, sendMessage }
+    return { messages, sendMessage, sessionId }
 }

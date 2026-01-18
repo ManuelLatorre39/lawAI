@@ -5,9 +5,11 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, PanelLeftClose, PanelLeft } from "lucide-react"
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, PanelLeftClose, PanelLeft, Highlighter, MessageSquare, PanelRightClose } from "lucide-react"
 import { DocumentContextPanel } from "./DocumentContextPanel"
+import { UserHighlightOverlay } from "./UserHighlightOverlay"
 import type { SearchMatch } from "@/types/document/documentItem"
+import type { HighlightedText } from "./hooks/useContextSelection"
 import { cn } from "@/lib/utils"
 import "react-pdf/dist/Page/TextLayer.css"
 import "react-pdf/dist/Page/AnnotationLayer.css"
@@ -30,7 +32,24 @@ type Props = {
   onHighlightAllChange?: (value: boolean) => void
   matches?: SearchMatch[]
   activeMatchIndex?: number | null
-  onMatchJump?: (index: number, page: number) => void
+  onMatchJump?: (index: number, page: number, text: string) => void
+  // Text selection props
+  textSelectionMode?: boolean
+  onTextSelectionModeChange?: (value: boolean) => void
+  onTextSelect?: (text: string, page: number) => void
+  // Chunk selection props
+  chunkSelectionMode?: boolean
+  onChunkSelectionModeChange?: (value: boolean) => void
+  isChunkSelected?: (chunkId: string) => boolean
+  getChunkSelectionOrder?: (chunkId: string) => number | null
+  onToggleChunk?: (chunk: SearchMatch) => void
+  // User highlights (notes)
+  userHighlights?: HighlightedText[]
+  onRemoveUserHighlight?: (id: string) => void
+  // Chat sidebar
+  chatSidebar?: React.ReactNode
+  chatOpen?: boolean
+  onChatOpenChange?: (open: boolean) => void
 }
 
 export function PdfViewer({
@@ -42,6 +61,22 @@ export function PdfViewer({
   matches = [],
   activeMatchIndex = null,
   onMatchJump,
+  // Text selection
+  textSelectionMode = false,
+  onTextSelectionModeChange,
+  onTextSelect,
+  // Chunk selection
+  chunkSelectionMode = false,
+  isChunkSelected,
+  getChunkSelectionOrder,
+  onToggleChunk,
+  // User highlights
+  userHighlights = [],
+  onRemoveUserHighlight,
+  // Chat sidebar
+  chatSidebar,
+  chatOpen = false,
+  onChatOpenChange,
 }: Props) {
   const [numPages, setNumPages] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
@@ -76,9 +111,9 @@ export function PdfViewer({
   }, [matches.length])
 
   // Handle match jump
-  const handleMatchJump = (index: number, page: number, _text: string) => {
+  const handleMatchJump = (index: number, page: number, text: string) => {
     if (onMatchJump) {
-      onMatchJump(index, page)
+      onMatchJump(index, page, text)
     }
   }
 
@@ -221,6 +256,23 @@ export function PdfViewer({
     setScale(1.0)
   }
 
+  // Handle text selection from PDF
+  const handleTextSelection = useCallback(() => {
+    if (!textSelectionMode || !onTextSelect) return
+
+    const selection = window.getSelection()
+    if (!selection || selection.isCollapsed) return
+
+    const selectedText = selection.toString().trim()
+    if (selectedText.length === 0) return
+
+    // Add the selected text
+    onTextSelect(selectedText, currentPage)
+
+    // Clear selection after capturing
+    selection.removeAllRanges()
+  }, [textSelectionMode, onTextSelect, currentPage])
+
   if (!memoizedFile) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -249,16 +301,31 @@ export function PdfViewer({
         {/* Sidebar */}
         <div
           className={cn(
-            "border-r bg-background transition-all duration-300 overflow-hidden flex-shrink-0",
+            "border-r bg-background transition-all duration-300 overflow-hidden shrink-0",
             sidebarOpen ? "w-90" : "w-0"
           )}
         >
           {sidebarOpen && (
             <div className="h-full overflow-auto p-4 space-y-4">
               <div className="flex items-center justify-between">
+                <div className="grid grid-cols-1 gap-2">
                 <h3 className="font-semibold text-sm text-muted-foreground">
                   Párrafos similares ({matches.length})
                 </h3>
+                {/* Highlight toggle */}
+                {onHighlightAllChange && highlights.length > 0 && (
+                  <div className="flex items-center gap-2 mr-10">
+                    <Switch
+                      id="highlight-all"
+                      checked={highlightAll}
+                      onCheckedChange={onHighlightAllChange}
+                    />
+                    <Label htmlFor="highlight-all" className="text-sm cursor-pointer">
+                      Resaltar todo
+                    </Label>
+                  </div>
+                )}
+                </div>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -272,6 +339,10 @@ export function PdfViewer({
                 matches={matches}
                 activeIndex={activeMatchIndex}
                 onJump={handleMatchJump}
+                selectionMode={chunkSelectionMode}
+                isChunkSelected={isChunkSelected}
+                getChunkSelectionOrder={getChunkSelectionOrder}
+                onToggleChunk={onToggleChunk}
               />
             </div>
           )}
@@ -363,23 +434,39 @@ export function PdfViewer({
             </Button>
           </div>
 
-          {/* Highlight toggle */}
-          {onHighlightAllChange && highlights.length > 0 && (
-            <div className="flex items-center gap-2 mr-10">
-              <Switch
-                id="highlight-all"
-                checked={highlightAll}
-                onCheckedChange={onHighlightAllChange}
-              />
-              <Label htmlFor="highlight-all" className="text-sm cursor-pointer">
-                Resaltar todo
-              </Label>
-            </div>
+          {/* Chat toggle button */}
+          {onChatOpenChange && !chatOpen && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onChatOpenChange(true)}
+              className="gap-2 mr-10"
+              title="Abrir chat"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Chat
+            </Button>
           )}
           </div>
 
           {/* PDF page container */}
-          <div ref={containerRef} className="flex-1 min-h-0 overflow-auto px-4 py-4">
+          <div
+            ref={containerRef}
+            className={cn(
+              "flex-1 min-h-0 overflow-auto px-4 py-4 relative",
+              textSelectionMode && "cursor-text ring-2 ring-primary/30 ring-inset"
+            )}
+            onMouseUp={handleTextSelection}
+          >
+            {/* User highlight notes overlay */}
+            {onRemoveUserHighlight && userHighlights.length > 0 && (
+              <UserHighlightOverlay
+                highlights={userHighlights}
+                currentPage={currentPage}
+                onRemove={onRemoveUserHighlight}
+              />
+            )}
+
             <div ref={pageRef} className="inline-flex justify-center min-w-full">
               <Page
                 pageNumber={currentPage}
@@ -391,6 +478,36 @@ export function PdfViewer({
               />
             </div>
           </div>
+        </div>
+
+        {/* Chat Sidebar (Right) */}
+        <div
+          className={cn(
+            "border-l bg-background transition-all duration-300 overflow-hidden shrink-0 flex flex-col",
+            chatOpen ? "w-110" : "w-0"
+          )}
+        >
+          {chatOpen && (
+            <div className="h-full flex flex-col">
+              {/* Chat header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => onChatOpenChange?.(false)}
+                >
+                  <PanelRightClose className="h-4 w-4" />
+                </Button>
+                <h3 className="font-semibold text-sm mr-10">Chat del documento</h3>
+                
+              </div>
+              {/* Chat content */}
+              <div className="flex-1 min-h-0 overflow-hidden">
+                {chatSidebar}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Document>

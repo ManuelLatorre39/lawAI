@@ -43,6 +43,7 @@ export function DocumentsPage() {
     useEffect(() => {
         API.get("/documents").then((res) => {
             setFiles(res.data)
+            console.log("Loaded documents:", res.data)
         })
     }, [])
 
@@ -59,7 +60,7 @@ export function DocumentsPage() {
         })
 
         const results: SearchResult[] = res.data.results
-
+        console.log("Search results:", results)
         const enrichedDocs = results
             .map((result) => {
                 const doc = files.find((f) => f.id === result.document_id)
