@@ -63,10 +63,3 @@ def get_document_file(document_id: str):
         # filename=file_path.name,
         # media_type="application/octet-stream"
     )
-    
-@router.post("/{document_id}/conversation")
-def create_conversation(document_id: str, dni: str):
-    response = create_conversation_service(document_id, dni)
-    return {
-        "conversation_id": str(response)
-    }

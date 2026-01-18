@@ -1,4 +1,4 @@
-from src.db.mongo import documents_col, analysis_col, chunks_col, conversations_col
+from src.db.mongo import documents_col, analysis_col, chunks_col
 from datetime import datetime, timezone
 from typing import List
 import math
@@ -173,16 +173,3 @@ def get_document_file_path(document_id: str) -> Path:
         raise HTTPException(status_code=404, detail="File not found on disk")
 
     return file_path
-
-def create_conversation_service(document_id: str, dni: str):
-    conv = {
-        "document_id": document_id,
-        "user_dni": dni,
-        "title": f"Chat sobre documento {document_id}",
-        "created_at": datetime.utcnow(),
-        "last_updated": datetime.utcnow(),
-    }
-
-    result = conversations_col.insert_one(conv)
-
-    return result.inserted_id
