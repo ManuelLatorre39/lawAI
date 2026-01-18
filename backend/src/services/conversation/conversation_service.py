@@ -1,12 +1,13 @@
-from src.db.mongo import conversations_col, messages_col
+from src.db.mongo import conversations_col, messages_col, serialize_mongo
 from datetime import datetime
 from bson import ObjectId
 
 def get_all_conversations(dni: str):
-    return list(
+    conversations = list(
         conversations_col.find({"user_dni": dni})
         .sort("last_updated", -1)
     )
+    return [serialize_mongo(c) for c in conversations]
 
 def get_conversation_messages(conversation_id: str):
     messages = list(

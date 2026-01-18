@@ -4,7 +4,7 @@ import uuid
 import os
 from pathlib import Path
 
-from src.services.document_service import save_document, get_all_documents, search_documents, get_document_file_path, create_conversation_service
+from src.services.document_service import save_document, get_all_documents, search_documents, get_document_file_path
 from src.services.processing_service import process_document
 
 UPLOAD_DIR = Path("storage/uploads")

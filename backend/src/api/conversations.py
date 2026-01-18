@@ -3,11 +3,11 @@ from src.services.conversation.conversation_service import create_conversation_s
 
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
-@router.get("/conversations")
+@router.get("")
 def list_conversations(dni: str):
     return get_all_conversations(dni)
 
-@router.get("/conversations/{conversation_id}")
+@router.get("/{conversation_id}")
 def get_conversation(conversation_id: str):
     return get_conversation_messages(conversation_id)
 

@@ -16,3 +16,7 @@ analysis_col = db["document_analysis"]
 users_col = db["users"]
 conversations_col = db["conversations"]
 messages_col = db["messages"]
+
+def serialize_mongo(doc):
+    doc["_id"] = str(doc["_id"])
+    return doc
