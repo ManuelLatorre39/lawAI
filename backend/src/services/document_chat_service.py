@@ -1,10 +1,8 @@
 from src.services.search_service import search_chunks
 from src.services.gen_client_service import generate_chat_response
 
-import logging
+from src.helpers.logger import logger
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 async def chat_with_document(
     document_id: str,
@@ -52,6 +50,9 @@ Instrucciones:
 - Si no encuentras la información en el documento, dilo explícitamente.
 """
 
+    answer = 'test'
+
+    '''
     # Call LLM (respetando config si existe)
     answer = generate_chat_response(
         final_prompt,
@@ -59,6 +60,7 @@ Instrucciones:
         # max_tokens=config.get("max_tokens") if config else None,
         # model=config.get("model") if config else None,
     )
+    '''
 
     # Return answer + structured sources
     return {

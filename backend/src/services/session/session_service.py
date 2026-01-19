@@ -31,4 +31,5 @@ def create_session_service(document_id: str, dni: str):
     return result.inserted_id
 
 def save_message( message: dict):
-    messages_col.insert_one(message)
+    result = messages_col.insert_one(message.copy())
+    return str(result.inserted_id)

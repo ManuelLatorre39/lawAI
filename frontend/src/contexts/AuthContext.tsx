@@ -4,9 +4,9 @@ import API from "../services/APIService";
 
 export type User = {
   id: string;
-  username: string;
-  email: string;
-  role: "admin" | "user" | "viewer"
+  username?: string;
+  email?: string;
+  role?: "admin" | "user" | "viewer"
 };
 
 type AuthContextValue = {
@@ -43,11 +43,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         headers: { Authorization: `Bearer ${token}` }
       })
       console.log(response)
-      // setUser(response.data.user)
+      setUser({id: response.data.dni})
     } catch (error) {
       // Token invalid, clear it
       localStorage.removeItem('token')
       setToken(null)
+      setUser(null)
     } finally {
       setIsLoading(false)
     }
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setToken(access_token)
       setIsLoading(false)
-      // setUser(user)
+      setUser({id: username})
       localStorage.setItem('token', access_token)
       return access_token // Return the user object
     } catch (error) {

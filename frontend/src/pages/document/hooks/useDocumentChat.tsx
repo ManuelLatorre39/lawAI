@@ -2,6 +2,7 @@ import type { ChatMessage } from "@/types/chat/chat"
 import type { SearchMatch } from "@/types/document/documentItem"
 import type { HighlightedText } from "./useContextSelection"
 import { useEffect, useRef, useState } from "react"
+import { useAuth } from "@/contexts/AuthContext"
 
 export type ChatContext = {
     chunks: SearchMatch[]
@@ -13,10 +14,12 @@ export function useDocumentChat(docId: string) {
     const [sessionId] = useState(() => crypto.randomUUID())
     const socketRef = useRef<WebSocket | null>(null)
 
+    const auth = useAuth()
+
     useEffect(() => {
         //usamos variables de entorno de vite
         const ws = new WebSocket(
-            `${import.meta.env.VITE_BACKEND_URL_WS}/documents/${docId}/chat`
+            `api/documents/${docId}/chat`
         ) // new WebSocket(`ws://localhost:8080/api/documents/${docId}/chat`)
         socketRef.current = ws
         ws.onopen = () => {
@@ -25,7 +28,7 @@ export function useDocumentChat(docId: string) {
 
         ws.onmessage = (event) => {
             const msg = JSON.parse(event.data)
-            setMessages((prev) => [...prev, msg])
+            setMessages((prev) => [...prev, { id: msg.message_id, role: "assistant", content: msg.prompt }])
         }
 
         ws.onerror = (e) => {
@@ -45,12 +48,18 @@ export function useDocumentChat(docId: string) {
         const ws = socketRef.current
         if (!ws || ws.readyState !== WebSocket.OPEN) return
 
+        if (!auth.user) {
+            console.error("Cannot send message: user not authenticated")
+            return
+        }
+
         const messageId = crypto.randomUUID()
 
         // Build message following protocol.md structure
         const payload = {
             message_id: messageId,
             session_id: sessionId,
+            user_id: auth.user.id,
             timestamp: Date.now(),
             type: "user_message",
             prompt: text,
