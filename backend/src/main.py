@@ -7,7 +7,7 @@ from src.api.documents import router as document_router
 from src.api.document_chat_ws import router as document_chat_router
 from src.api.auth import router as auth_router
 from src.api.users import router as users_router
-from src.api.conversations import router as conv_router
+from src.api.sessions import router as conv_router
 
 root_dir = Path(__file__).resolve().parent
 root_root_dir = Path(__file__).resolve().parent.parent

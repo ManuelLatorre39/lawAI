@@ -55,6 +55,7 @@ msg: {
     message_id: string,
     session_id: string,
     timestamp: number,
+    user_id: string,
     type: 'user' | 'bot' | 'system',
     prompt: string,
     context: {
@@ -73,7 +74,6 @@ msg: {
         model?: string
     },
     metadata?: {
-        user_id?: string,
         client_version?: string
     }
 }

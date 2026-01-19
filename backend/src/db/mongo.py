@@ -14,7 +14,7 @@ documents_col = db["documents"]
 chunks_col = db["document_chunks"]
 analysis_col = db["document_analysis"]
 users_col = db["users"]
-conversations_col = db["conversations"]
+sessions_col = db["sessions"]
 messages_col = db["messages"]
 
 def serialize_mongo(doc):

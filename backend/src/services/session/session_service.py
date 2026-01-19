@@ -1,23 +1,23 @@
-from src.db.mongo import conversations_col, messages_col, serialize_mongo
+from src.db.mongo import sessions_col, messages_col, serialize_mongo
 from datetime import datetime
 from bson import ObjectId
 
-def get_all_conversations(dni: str):
-    conversations = list(
-        conversations_col.find({"user_dni": dni})
+def get_all_sessions(dni: str):
+    sessions = list(
+        sessions_col.find({"user_dni": dni})
         .sort("last_updated", -1)
     )
-    return [serialize_mongo(c) for c in conversations]
+    return [serialize_mongo(c) for c in sessions]
 
-def get_conversation_messages(conversation_id: str):
+def get_session_messages(session_id: str):
     messages = list(
         messages_col.find({
-            "conversation_id": ObjectId(conversation_id)
+            "conversation_id": ObjectId(session_id)
         }).sort("created_at", 1)
     )
     return messages
 
-def create_conversation_service(document_id: str, dni: str):
+def create_session_service(document_id: str, dni: str):
     conv = {
         "document_id": document_id,
         "user_dni": dni,
@@ -26,7 +26,7 @@ def create_conversation_service(document_id: str, dni: str):
         "last_updated": datetime.utcnow(),
     }
 
-    result = conversations_col.insert_one(conv)
+    result = sessions_col.insert_one(conv)
 
     return result.inserted_id
 

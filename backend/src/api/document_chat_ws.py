@@ -1,7 +1,7 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from datetime import datetime
 from src.services.document_chat_service import chat_with_document
-from src.services.conversation.conversation_service import save_message
+from src.services.session.session_service import save_message
 from bson import ObjectId
 
 router = APIRouter(prefix="/documents")
@@ -10,40 +10,53 @@ router = APIRouter(prefix="/documents")
 async def document_chat_ws(
     websocket: WebSocket, 
     document_id: str,
-    conversation_id: str,
-    dni: str
+    # session_id: str,
+    # dni: str
 ):
     await websocket.accept()
 
     try:
         while True:
-            user_message = await websocket.receive_text()
+            msg = await websocket.receive_json()
 
             save_message({
-                "conversation_id": ObjectId(conversation_id),
+                "message_id": msg["message_id"],
+                "session_id": msg["session_id"],
                 "document_id": document_id,
-                "user_dni": dni,
-                "role": "user",
-                "content": user_message,
+                "user_id": msg["user_id"],
+                "type": "user",
+                "prompt": msg["prompt"],
+                "context": msg["context"],
+                "config": msg.get("config"),
+                "metadata": msg.get("metadata"),
                 "created_at": datetime.utcnow(),
             })
 
             response = await chat_with_document(
                 document_id=document_id,
-                user_message=user_message
+                prompt=msg["prompt"],
+                context=msg["context"],
+                config=msg.get("config")
             )
             
-            save_message({
-                "conversation_id": ObjectId(conversation_id),
-                "document_id": document_id,
-                "user_dni": dni,
-                "role": "assistant",
-                "content": user_message,
-                "created_at": datetime.utcnow(),
-            })
+            bot_msg = {
+                "message_id": str(ObjectId()),
+                "session_id": msg["session_id"],
+                "timestamp": int(datetime.utcnow().timestamp()),
+                "user_id": "system",
+                "type": "bot",
+                "prompt": response["answer"],
+                "context": {
+                    "document_ids": [document_id],
+                    "chunks_ids": [s["chunk_id"] for s in response["sources"]],
+                    "highlighted_texts": []
+                }
+            }
 
-            # print(response.candidates[0].content.parts[0].text)
-            await websocket.send_json({"type": "assistant", "content": response["answer"], "sources": response["sources"]})
+            # Save bot message
+            save_message(bot_msg)
 
+            # Send to client
+            await websocket.send_json(bot_msg)
     except WebSocketDisconnect:
         print(f"Client disconnected from document {document_id}")

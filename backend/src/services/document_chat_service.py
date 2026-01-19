@@ -6,46 +6,70 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def chat_with_document(document_id: str, user_message: str):
-    # 1. Retrieve relevant chunks
-    chunks = search_chunks(
+async def chat_with_document(
+    document_id: str,
+    prompt: str,
+    context: dict,
+    config: dict | None = None
+):
+    # Retrieve relevant chunks
+    retrieved_chunks = search_chunks(
         document_id=document_id,
-        query=user_message,
+        query=prompt,
         limit=5
     )
 
-    # 2. Build context
-    context = "\n\n".join(
-        f"[Page {c['page']}] {c['text']}"
-        for c in chunks
+    # Build document context string
+    doc_context_text = "\n\n".join(
+        f"[Página {c.get('page', 'N/A')}] {c['text']}"
+        for c in retrieved_chunks
     )
 
-    # 3. LLM prompt
-    prompt = f"""
-        Eres un asistente legal respondiendo preguntas utilizando el documento provisto
+    # Optionally merge user-provided highlights
+    highlighted_context = ""
+    if context and context.get("highlighted_texts"):
+        highlighted_context = "\n\n".join(
+            f"[Destacado en doc {h['document_id']}, p.{h.get('page','?')}] {h['text']}"
+            for h in context["highlighted_texts"]
+        )
 
-        CONTEXTO DE DOCUMENTO:
-        {context}
+    # Build final LLM prompt
+    final_prompt = f"""
+Eres un asistente legal respondiendo preguntas utilizando el documento provisto.
 
-        CONSULTA:
-        {user_message}
+=== CONTEXTO RECUPERADO AUTOMÁTICAMENTE ===
+{doc_context_text}
 
-        Responde claramente y cita números de página si es relevante.
-        Responder en español.
-    """
+=== FRAGMENTOS DESTACADOS POR EL USUARIO ===
+{highlighted_context if highlighted_context else "(Ninguno)"}
 
-    # 4. Call LLM
-    answer = generate_chat_response(prompt)
+=== CONSULTA DEL USUARIO ===
+{prompt}
 
+Instrucciones:
+- Responde claramente y en español.
+- Cita números de página cuando sea relevante.
+- Si no encuentras la información en el documento, dilo explícitamente.
+"""
+
+    # Call LLM (respetando config si existe)
+    answer = generate_chat_response(
+        final_prompt,
+        # temperature=config.get("temperature") if config else None,
+        # max_tokens=config.get("max_tokens") if config else None,
+        # model=config.get("model") if config else None,
+    )
+
+    # Return answer + structured sources
     return {
         "answer": answer,
         "sources": [
             {
-                "chunk_id": c["_id"],
+                "chunk_id": str(c["_id"]),
                 "page": c.get("page"),
                 "text": c.get("text"),
-                "score": c["score"]
+                "score": c.get("score")
             }
-            for c in chunks
+            for c in retrieved_chunks
         ]
     }
