@@ -52,7 +52,8 @@ async def document_chat_ws(
                     "document_ids": [str(document_id)],
                     "chunks_ids": [str(s["chunk_id"]) for s in response["sources"]],
                     "highlighted_texts": []
-                }
+                },
+                "similar_docs": response["similar_docs"]
 
             }
 

@@ -10,6 +10,18 @@ if not api_key:
 
 client = genai.Client(api_key=api_key)
 
+def get_chunks(chunks_ids: list[str]) -> list[dict]:
+    cursor = chunks_col.find(
+        {"_id": {"$in": chunks_ids}},
+        {
+            "_id": 1,
+            "document_id": 1,
+            "page": 1,
+            "text": 1
+        }
+    )
+
+    return list(cursor)
 
 def embed_and_save_chunks(document_id: str, chunks: list[dict]):
     docs = []

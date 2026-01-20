@@ -33,6 +33,27 @@ def get_all_documents():
 
     return [serialize_document(doc) for doc in docs]
 
+def get_documents_by_chunks(chunks: list):
+    if not chunks:
+        return []
+
+    document_ids = list({
+        c["document_id"] for c in chunks if c.get("document_id")
+    })
+
+    docs = documents_col.find(
+        {"_id": {"$in": document_ids}},
+        {
+            "_id": 1,
+            "filename": 1,
+            "status": 1,
+            "created_at": 1,
+            "updated_at": 1,
+        },
+    )
+
+    return [serialize_document(doc) for doc in docs]
+
 def save_document(document_id: str, filename: str):
     documents_col.insert_one({
         "_id": document_id,

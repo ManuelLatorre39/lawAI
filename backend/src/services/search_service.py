@@ -17,7 +17,23 @@ def search_chunks(document_id: str, query: str, limit=5):
         "page": 1
     })
 
-    logger.info(candidates)
+    scored = []
+    for doc in candidates:
+        score = cosine_similarity(query_embedding, doc["embedding"])
+        scored.append({**doc, "score": score})
+
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    return scored[:limit]
+
+def search_chunks_global(query: str, limit=5):
+    query_embedding = embed(query)
+
+    candidates = chunks_col.find({}, {
+        "text": 1,
+        "embedding": 1,
+        "document_id": 1,
+        "page": 1
+    }).limit(2000)
 
     scored = []
     for doc in candidates:
