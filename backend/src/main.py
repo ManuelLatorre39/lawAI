@@ -8,6 +8,7 @@ from src.api.document_chat_ws import router as document_chat_router
 from src.api.auth import router as auth_router
 from src.api.users import router as users_router
 from src.api.sessions import router as conv_router
+from src.migration.migration import migrate
 
 root_dir = Path(__file__).resolve().parent
 root_root_dir = Path(__file__).resolve().parent.parent
@@ -28,6 +29,8 @@ app.include_router(document_chat_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
 app.include_router(users_router, prefix="/api")
 app.include_router(conv_router, prefix="/api")
+
+migrate()
 
 '''
 @app.post("/query")
