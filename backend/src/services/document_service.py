@@ -105,7 +105,8 @@ def save_document(file_id: str, filename: str):
         "updated_at": now()
     }
     
-    documents_col.insert_one(doc)
+    result = documents_col.insert_one(doc)
+    return str(result.inserted_id)
     
 def save_document_analysis(document_id: str, analysis: dict):
     analysis_col.insert_one({
@@ -134,7 +135,7 @@ def update_status(
         return
 
     documents_col.update_one(
-        {"_id": document_id},
+        {"_id": ObjectId(document_id)},
         {"$set": update_fields}
     )
     

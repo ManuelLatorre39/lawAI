@@ -4,6 +4,7 @@ from src.services.chunk_service import embed_and_save_chunks
 from src.services.analysis_service import generate_and_store_analysis
 from src.services.document_service import update_status, get_document_content
 from src.helpers.logger import logger
+from bson import ObjectId
 
 def process_document(document_id: str, file_path: Path):
     try:
@@ -16,7 +17,7 @@ def process_document(document_id: str, file_path: Path):
         chunks = chunking.chunk_pages(pages)
 
         # 3. Save chunks + embeddings
-        embed_and_save_chunks(document_id, chunks)
+        embed_and_save_chunks(ObjectId(document_id), chunks)
 
         # 4. LLM analysis (summary, metadata, etc)
         # Comentado temporalmente: discutir

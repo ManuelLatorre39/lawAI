@@ -38,17 +38,19 @@ async def upload_file(
     with open(file_path, "wb") as f:
         f.write(await file.read())
 
-    save_document(file_id, file.filename)
+    doc_id = save_document(file_id, file.filename)
     # save_chunks(file_id, chunks) cambiar a procesamiento posterior
+
+    logger.info(doc_id)
 
     background_tasks.add_task(
         process_document,
-        file_id,
+        doc_id,
         file_path
     )
 
     return {
-        "document_id": file_id,
+        "document_id": doc_id,
         "filename": file.filename,
         # "chunks": len(chunks),
         "status": "UPLOADED"
