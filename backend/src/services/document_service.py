@@ -8,6 +8,8 @@ from google import genai
 from fastapi import HTTPException
 from pathlib import Path
 from src.helpers.datetime import now
+from src.helpers.logger import logger
+from bson import ObjectId
 
 load_dotenv()
 
@@ -58,7 +60,7 @@ def get_documents_by_chunks(chunks: list):
 
 def get_document_content(doc_id: str):
     content = content_col.find_one(
-        {"document_id": doc_id},
+        {"document_id": ObjectId(doc_id)},
         {
             "_id": 1,
             "document_id": 1,
@@ -72,6 +74,21 @@ def get_document_content(doc_id: str):
         result = content["full_text"]
     
     return result
+
+def get_document_analysis(doc_id: str):
+    analysis = analysis_col.find_one(
+        {"document_id": ObjectId(doc_id)},
+    )
+    
+    return serialize_doc_id(analysis)
+
+def get_document_by_id(doc_id: str):
+    doc = documents_col.find_one(
+        {"_id": ObjectId(doc_id)},
+    )
+    logger.info(doc)
+    
+    return serialize_doc_id(doc)
 
 def save_document(file_id: str, filename: str):
     doc = {
@@ -142,6 +159,19 @@ def serialize_document(doc):
             else None
         ),
     }
+
+def serialize_doc_id(doc):
+    if not doc:
+        return None
+    # stringify _id
+    if "_id" in doc and isinstance(doc["_id"], ObjectId):
+        doc["_id"] = str(doc["_id"])
+
+    # stringify document_id if present
+    if "document_id" in doc and isinstance(doc["document_id"], ObjectId):
+        doc["document_id"] = str(doc["document_id"])
+
+    return doc
 
 def cosine_similarity(a: List[float], b: List[float]) -> float:
     dot = sum(x * y for x, y in zip(a, b))
@@ -221,18 +251,21 @@ def search_documents(query: str, top_k: int = 5):
     return list(results.values())
 
 def get_document_file_path(document_id: str) -> Path:
-    doc = documents_col.find_one({"_id": document_id})
+    doc = documents_col.find_one({"_id": ObjectId(document_id)})
     if not doc:
-        raise HTTPException(status_code=404, detail="Document not found")
+        # raise HTTPException(status_code=404, detail="Document not found")
+        return None
 
     file_path = doc.get("file_path")
     if not file_path:
-        raise HTTPException(status_code=404, detail="File path not found")
+        # raise HTTPException(status_code=404, detail="File path not found")
+        return None
 
     file_path_full = UPLOAD_DIR / file_path
     print(file_path_full)
 
     if not file_path_full.exists():
-        raise HTTPException(status_code=404, detail="File not found on disk")
+        # raise HTTPException(status_code=404, detail="File not found on disk")
+        return None
 
     return file_path_full
