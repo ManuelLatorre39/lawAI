@@ -1,6 +1,6 @@
-from src.db.mongo import documents_col, analysis_col, chunks_col
+from src.db.mongo import documents_col, analysis_col, chunks_col, content_col
 from datetime import datetime, timezone
-from typing import List
+from typing import List, Optional
 import math
 import os
 from dotenv import load_dotenv
@@ -24,8 +24,9 @@ def get_all_documents():
         {},
         {
             "_id": 1,
-            "filename": 1,
-            "status": 1,
+            # "filename": 1,
+            "status_chunks": 1,
+            "status_analysis": 1,
             "created_at": 1,
             "updated_at": 1,
         },
@@ -54,6 +55,23 @@ def get_documents_by_chunks(chunks: list):
 
     return [serialize_document(doc) for doc in docs]
 
+def get_document_content(doc_id: str):
+    content = content_col.find_one(
+        {"document_id": doc_id},
+        {
+            "_id": 1,
+            "document_id": 1,
+            "full_text": 1
+        },
+    )
+    
+    result = None
+    
+    if content:
+        result = content["full_text"]
+    
+    return result
+
 def save_document(document_id: str, filename: str):
     documents_col.insert_one({
         "_id": document_id,
@@ -69,22 +87,36 @@ def save_document_analysis(document_id: str, analysis: dict):
         "created_at": datetime.utcnow()
     })
     
-def update_status(document_id: str, status: str):
+def update_status(
+    document_id: str,
+    status_chunks: Optional[str] = None,
+    status_analysis: Optional[str] = None,
+):
+    update_fields = {
+        "updated_at": datetime.now(timezone.utc)
+    }
+
+    if status_chunks is not None:
+        update_fields["status_chunks"] = status_chunks
+
+    if status_analysis is not None:
+        update_fields["status_analysis"] = status_analysis
+
+    if len(update_fields) == 1:
+        # Only updated_at → nothing meaningful to update
+        return
+
     documents_col.update_one(
         {"_id": document_id},
-        {
-            "$set": {
-                "status": status,
-                "updated_at": datetime.now(timezone.utc)
-            }
-        }
+        {"$set": update_fields}
     )
     
 def serialize_document(doc):
     return {
         "id": str(doc["_id"]),
-        "filename": doc["filename"],
-        "status": doc["status"],
+        # "filename": doc["filename"],
+        "status_chunks": doc["status_chunks"],
+        "status_analysis": doc["status_analysis"],
         "created_at": (
             doc["created_at"]
             .replace(tzinfo=timezone.utc)

@@ -21,3 +21,26 @@ messages_col = db["messages"]
 def serialize_mongo(doc):
     doc["_id"] = str(doc["_id"])
     return doc
+
+def init_indexes():
+    content_col.create_index(
+        [("document_id", 1)],
+        unique=True
+    )
+
+    analysis_col.create_index(
+        [("document_id", 1), ("kind", 1)],
+        unique=True
+    )
+
+    chunks_col.create_index(
+        [("document_id", 1)]
+    )
+
+    """
+    chunks_col.create_index(
+        [("embedding", "cosine")]  # if using vector search later
+    )
+    """
+    
+init_indexes()

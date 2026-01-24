@@ -1,7 +1,10 @@
 import json
 from src.db.mongo import documents_col, chunks_col, analysis_col, content_col
+from src.services.processing_service import process_document_content
 from src.helpers.datetime import now, parse_date
 from pathlib import Path
+import asyncio
+from src.helpers.logger import logger
 
 def detect_document_kind(record):
     if "numero-sumario" in record:
@@ -104,7 +107,8 @@ def build_document(record):
         "source_id": record.get("id-infojus"),
         "title": record.get("titulo"),
         "visibility": "public",
-        "status": "READY",
+        "status_chunks": "PENDING",
+        "status_analysis": "READY",
         "created_at": parse_date(record.get("fecha-alta")),
         "updated_at": parse_date(record.get("fecha-mod"))
     }
@@ -116,7 +120,7 @@ def migrate():
     dataset_path = base_dir / "dataset.jsonl"
     with dataset_path.open("r", encoding="utf-8") as f:
         for i, line in enumerate(f):
-            if i >= 100:
+            if i >= 10:
                 break
 
             record = json.loads(line)
@@ -130,10 +134,33 @@ def migrate():
             )
 
             if "texto" in record:
-                content_col.insert_one(build_content(record, doc["_id"]))
-                """
-                for chunk in create_chunks(doc["_id"], record["texto"]):
-                    chunks_col.insert_one(chunk)
-                """
+                content = build_content(record, doc["_id"])
 
-            analysis_col.insert_one(build_analysis(record, doc["_id"], kind))
+                content_col.update_one(
+                    {"document_id": doc["_id"]},
+                    {"$setOnInsert": content},
+                    upsert=True
+                )
+
+            analysis = build_analysis(record, doc["_id"], kind)
+
+            analysis_col.update_one(
+                {
+                    "document_id": doc["_id"],
+                    "kind": kind
+                },
+                {"$setOnInsert": analysis},
+                upsert=True
+            )
+            
+            already_processed = chunks_col.count_documents(
+                {"document_id": doc["_id"]},
+                limit=1
+            ) > 0
+            
+            logger.info(already_processed)
+            
+            if not already_processed:
+                asyncio.create_task(
+                    process_document_content(doc["_id"])
+                )
