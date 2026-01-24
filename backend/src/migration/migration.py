@@ -5,6 +5,7 @@ from src.helpers.datetime import now, parse_date
 from pathlib import Path
 import asyncio
 from src.helpers.logger import logger
+from bson import ObjectId
 
 def detect_document_kind(record):
     if "numero-sumario" in record:
@@ -102,7 +103,10 @@ def build_content(record, doc_id):
 
 def build_document(record):    
     doc = {
-        "_id": record.get("guid"),  # use guid as stable ID
+        # "_id": ObjectId(),
+        "guid": record.get("guid"),  # use guid as stable ID
+        "filename": None,
+        "file_path": None,
         "source_type": "saij",
         "source_id": record.get("id-infojus"),
         "title": record.get("titulo"),
@@ -120,7 +124,7 @@ def migrate():
     dataset_path = base_dir / "dataset.jsonl"
     with dataset_path.open("r", encoding="utf-8") as f:
         for i, line in enumerate(f):
-            if i >= 10:
+            if i >= 5:
                 break
 
             record = json.loads(line)
@@ -128,25 +132,33 @@ def migrate():
 
             doc = build_document(record)
             documents_col.update_one(
-                {"_id": doc["_id"]},
+                {"guid": doc["guid"]},
                 {"$setOnInsert": doc},
                 upsert=True
             )
+            
+            doc_mongo = documents_col.find_one(
+                {"guid": doc["guid"]},
+                {
+                    "_id": 1,
+                    "guid": 1
+                },
+            )
 
             if "texto" in record:
-                content = build_content(record, doc["_id"])
+                content = build_content(record, doc_mongo["_id"])
 
                 content_col.update_one(
-                    {"document_id": doc["_id"]},
+                    {"document_id": doc_mongo["_id"]},
                     {"$setOnInsert": content},
                     upsert=True
                 )
 
-            analysis = build_analysis(record, doc["_id"], kind)
+            analysis = build_analysis(record, doc_mongo["_id"], kind)
 
             analysis_col.update_one(
                 {
-                    "document_id": doc["_id"],
+                    "document_id": doc_mongo["_id"],
                     "kind": kind
                 },
                 {"$setOnInsert": analysis},
@@ -154,7 +166,7 @@ def migrate():
             )
             
             already_processed = chunks_col.count_documents(
-                {"document_id": doc["_id"]},
+                {"document_id": doc_mongo["_id"]},
                 limit=1
             ) > 0
             
@@ -162,5 +174,5 @@ def migrate():
             
             if not already_processed:
                 asyncio.create_task(
-                    process_document_content(doc["_id"])
+                    process_document_content(doc_mongo["_id"])
                 )

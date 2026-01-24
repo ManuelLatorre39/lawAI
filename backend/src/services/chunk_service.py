@@ -2,6 +2,7 @@ from src.db.mongo import chunks_col
 import os
 from dotenv import load_dotenv
 from google import genai
+from bson import ObjectId
 
 api_key = os.getenv("GEMINI_API_KEY")
 
@@ -38,7 +39,6 @@ def embed_and_save_chunks(document_id: str, chunks: list[dict]):
         embeddings = embedding_obj.values
 
         docs.append({
-            "_id": f"{document_id}_{i:04d}",
             "document_id": document_id,
             "chunk_index": i,
             "page": page,

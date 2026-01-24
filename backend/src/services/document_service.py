@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from google import genai
 from fastapi import HTTPException
 from pathlib import Path
+from src.helpers.datetime import now
 
 load_dotenv()
 
@@ -72,13 +73,22 @@ def get_document_content(doc_id: str):
     
     return result
 
-def save_document(document_id: str, filename: str):
-    documents_col.insert_one({
-        "_id": document_id,
+def save_document(file_id: str, filename: str):
+    doc = {
+        "guid": None,  # use guid as stable ID
         "filename": filename,
-        "status": "UPLOADED",
-        "created_at": datetime.utcnow()
-    })
+        "file_path": f"{file_id}_{filename}",
+        "source_type": "saij",
+        "source_id": None,
+        "title": None,
+        "visibility": "public",
+        "status_chunks": "PENDING",
+        "status_analysis": "PENDING",
+        "created_at": now(),
+        "updated_at": now()
+    }
+    
+    documents_col.insert_one(doc)
     
 def save_document_analysis(document_id: str, analysis: dict):
     analysis_col.insert_one({
@@ -215,14 +225,14 @@ def get_document_file_path(document_id: str) -> Path:
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
 
-    filename = doc.get("filename")
-    if not filename:
-        raise HTTPException(status_code=404, detail="File metadata not found")
+    file_path = doc.get("file_path")
+    if not file_path:
+        raise HTTPException(status_code=404, detail="File path not found")
 
-    file_path = UPLOAD_DIR / f"{document_id}_{filename}"
-    print(file_path)
+    file_path_full = UPLOAD_DIR / file_path
+    print(file_path_full)
 
-    if not file_path.exists():
+    if not file_path_full.exists():
         raise HTTPException(status_code=404, detail="File not found on disk")
 
-    return file_path
+    return file_path_full
